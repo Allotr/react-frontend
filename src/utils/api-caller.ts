@@ -30,4 +30,6 @@ export class ApiCaller {
             client.subscribe({ query: 'subscription { newUpdate {result} }' }, { next: onNext, error: reject, complete: resolve });
         });
     }
+
+
 }

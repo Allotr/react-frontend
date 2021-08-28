@@ -2,15 +2,18 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import GoogleButton from 'react-google-button'
 import AllotrLogo from "../../assets/AllotrLogo";
+import { EnvLoader } from "../../utils/env-loader";
 
-function Login(props: { value: string }) {
+function Login() {
   const { t } = useTranslation();
+
   useEffect(() => {
     // Add your init code
   }, [])
 
   return (
-    <div className="login bg-blue-dark w-screen h-screen flex-cols items-center">
+
+    <div className="login bg-blue-dark min-h-screen min-w-screen flex-cols items-center">
       <div className="flex justify-center md:pt-40 pt-20">
         <AllotrLogo width="200" height="200" ></AllotrLogo>
       </div>
@@ -21,7 +24,10 @@ function Login(props: { value: string }) {
         <GoogleButton
           className="flex items-center"
           label={t('LoginWithGoogle')}
-          onClick={() => { console.log('Google button clicked') }}
+          onClick={() => {
+            console.log("Google button clicked");
+            window.location.replace(EnvLoader.getInstance().loadedVariables.REACT_APP_GOOGLE_LOGIN_ENDPOINT);
+          }}
         />
       </div>
     </div>

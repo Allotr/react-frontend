@@ -3,13 +3,13 @@ import ReactLoading from 'react-loading';
 
 function Loading() {
     const type = "spin"
-    const color = "#000000"
+    const color = "#ffffff"
   useEffect(() => {
     // Add your init code
   }, [])
 
   return (
-    <ReactLoading type={type} color={color} height={'20px'} width={'20px'} />
+    <ReactLoading type={type} color={color} height={'50px'} width={'50px'} />
   );
 }
 

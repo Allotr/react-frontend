@@ -3,6 +3,13 @@
         "Welcome to React": "Bienvenido a React y react-i18next",
         "Allotr": "Allotr",
         "LoginWithGoogle": "Inicia sesión con Google",
-        "AllotrLemma": "¿A quién le toca?"
+        "AllotrLemma": "¿A quién le toca?",
+        "YourResources": "Tus Recursos",
+        "RequestResource": "Solicitar",
+        "ReleaseResource": "Liberar",
+        "YourTurnIndicator": "Turno en cola",
+        "Logout": "Cerrar sesión",
+        "Settings": "Configuración",
+        "LastUpdate": "Últ. Actualización"
     }
 }

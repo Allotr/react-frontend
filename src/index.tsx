@@ -4,13 +4,34 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import initializeBundles from './i18n';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider
+} from "@apollo/client";
+import { createHttpLink } from '@apollo/client';
+import { EnvLoader } from './utils/env-loader';
 
 initializeBundles();
 
+
+const link = createHttpLink({
+  uri: EnvLoader.getInstance().loadedVariables.REACT_APP_HTTPS_API_ENDPOINT,
+  credentials: "include"
+})
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link
+});
+
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ApolloProvider client={client}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Loading from "./Loading";
 
 function NotFound() {
   useEffect(() => {
@@ -6,7 +7,12 @@ function NotFound() {
   }, [])
 
   return (
-    <h1>ERROR: PAGE NOT FOUND</h1>
+
+    <div className="login bg-blue-dark min-h-screen min-w-screen flex content-center">
+      <div className="block m-auto">
+      <Loading></Loading>
+      </div>
+    </div>
   );
 }
 

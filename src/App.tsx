@@ -10,24 +10,20 @@ import NotFound from './components/generic/NotFound';
 import Home from './components/home/Home';
 import Login from './components/login/Login';
 import GuardedRoute from './components/generic/GuardedRoute';
+import { CurrentUser, CurrentUserQuery } from "allotr-graphql-schema-types";
+import { useQuery } from "@apollo/client";
 
-const isLoggedIn = (): boolean => {
-  // if (to.meta.auth) {
-  //   if (getIsLoggedIn()) {
-  //     next();
-  //   }
-  return false;
-  // } else {
-  //   next();
-  // }
-};
 
 function App() {
+  const { data, error, loading } = useQuery<CurrentUserQuery>(CurrentUser);
+  console.log("Data loaded", data, data?.currentUser?._id)
+  console.log({ data, error, loading });
+
   return (
     <Router>
       <Switch>
-        <Route path='/login'  exact component={Login} />
-        <GuardedRoute path='/' auth={isLoggedIn()} exact component={Home} />
+        <Route path='/login' exact component={Login} />
+        {!loading ? <GuardedRoute path='/' auth={data?.currentUser?._id != null} exact component={Home} /> : null}
         <Route path="*" component={NotFound} />
       </Switch>
 
@@ -38,3 +34,4 @@ function App() {
 
 
 export default App;
+
