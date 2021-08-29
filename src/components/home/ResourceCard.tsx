@@ -6,8 +6,26 @@ import ActionButton from "../generic/ActionButton";
 import TurnIndicator from "../generic/TurnIndicator";
 import { TicketStatusCode } from "allotr-graphql-schema-types"
 import ActiveUserStatus from "../generic/ActiveUserStatus";
+import { Link } from "react-router-dom"
 
-function ResourceCard({ status, name, description, lastUpdateDate, currentUsers, maxUsers }: { status: TicketStatusCode, name: string, description: string, lastUpdateDate: Date, currentUsers: number, maxUsers: number }) {
+function ResourceCard({
+    resourceId,
+    statusCode,
+    name,
+    description,
+    lastModificationDate,
+    activeUserCount,
+    createdBy,
+    maxActiveTickets }: {
+        resourceId: string,
+        statusCode: TicketStatusCode,
+        name: string,
+        description?: string | null,
+        lastModificationDate: Date,
+        activeUserCount: number,
+        maxActiveTickets: number,
+        createdBy?: { userId?: string | null, username?: string | null } | undefined | null
+    }) {
     const { t } = useTranslation();
     useEffect(() => {
         // Add your init code
@@ -15,10 +33,10 @@ function ResourceCard({ status, name, description, lastUpdateDate, currentUsers,
     const action = () => { };
     const queuePosition = 69;
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
-        ACTIVE: <ActionButton action={action} label="ReleaseResource" logo={ClosedLock} fill="#5ABAFF"></ActionButton>,
+        ACTIVE: <ActionButton action={action} label="ReleaseResource" logo={OpenLock} fill="#5ABAFF"></ActionButton>,
         AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
-        INACTIVE: <ActionButton action={action} label="RequestResource" logo={OpenLock} fill="#5ABAFF"></ActionButton>,
-        INITIALIZED: <ActionButton action={action} label="RequestResource" logo={OpenLock} fill="#5ABAFF"></ActionButton>,
+        INACTIVE: <ActionButton action={action} label="RequestResource" logo={ClosedLock} fill="#5ABAFF"></ActionButton>,
+        INITIALIZED: <ActionButton action={action} label="RequestResource" logo={ClosedLock} fill="#5ABAFF"></ActionButton>,
         QUEUED: <TurnIndicator queuePosition={queuePosition} ></TurnIndicator>,
         REQUESTING: <div className="w-28 h-9" />,
         REVOKED: <div className="w-28 h-9" />
@@ -27,15 +45,17 @@ function ResourceCard({ status, name, description, lastUpdateDate, currentUsers,
     return (
         <div className="resourceCard bg-purple-dark min-h-32 w-11/12 m-auto mt-10 flex justify-between break-all md:break-normal pb-7">
             <div className="self-start mt-4 ml-2">
-                <ActiveUserStatus currentUsers={currentUsers} maxUsers={maxUsers} key={1} />
+                <ActiveUserStatus currentUsers={activeUserCount} maxUsers={maxActiveTickets} key={1} />
             </div>
             <div className="flex-col flex-grow ml-3">
-                <p className="text-yellow text-base text-left mt-3">{name}</p>
+                <div className="mt-3"></div>
+                <Link to={`/viewResource/${resourceId}`} className="text-yellow text-base text-left  hover:underline"> {name}</Link>
+                <p className="text-blue text-xs text-left">{`${t("CreatedBy")}${createdBy?.username ?? ""}`}</p>
                 <p className="text-blue-light text-sm text-left mt-3">{description}</p>
-                <p className="text-blue-light text-xs text-left mt-3 break-words">{`${t("LastUpdate")}:\r\n${lastUpdateDate.toISOString().substring(0, 10)}`}</p>
+                <p className="text-blue-light text-xs text-left mt-3 break-words">{`${t("LastUpdate")}:\r\n${new Date(lastModificationDate).toISOString().substring(0, 10)}`}</p>
             </div>
 
-            <div className="mt-4 ml-2 mr-3  self-start">{componentMap[status]}</div>
+            <div className="mt-4 ml-2 mr-3  self-start">{componentMap[statusCode]}</div>
         </div>
     );
 }

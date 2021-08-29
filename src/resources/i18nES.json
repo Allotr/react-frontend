@@ -10,6 +10,17 @@
         "YourTurnIndicator": "Turno en cola",
         "Logout": "Cerrar sesión",
         "Settings": "Configuración",
-        "LastUpdate": "Últ. Actualización"
+        "LastUpdate": "Últ. Act.",
+        "Credits": "Aplicación desarrollada por Rafael Pernil (github.com/@rafaelpernil2). Todos los derechos reservados - Allotr.eu 2021",
+        "CreateResource": "Crear Recurso",
+        "ViewResource": "Ver Recurso",
+        "CreatedBy": "De ",
+        "Cancel": "Cancelar",
+        "CreateResourceButton": "Crear",
+        "NameForm": "Nombre",
+        "DescriptionForm": "Descripción",
+        "MaxUsersForm": "Máximos usuarios simultáneos",
+        "UsersForm": "Usuarios",
+        "SearchUserTable": "Buscar"
     }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Loading from "./Loading";
 
-function NotFound() {
+function LoadingScreen() {
   useEffect(() => {
     // Add your init code
   }, [])
@@ -16,4 +16,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default LoadingScreen;

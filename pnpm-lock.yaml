@@ -26,6 +26,7 @@ specifiers:
   react-burger-menu: ^3.0.6
   react-dom: ^17.0.2
   react-google-button: ^0.7.2
+  react-hook-form: ^7.14.0
   react-i18next: ^11.11.4
   react-loading: ^2.0.3
   react-router: ^5.2.0
@@ -59,6 +60,7 @@ dependencies:
   react-burger-menu: 3.0.6_react-dom@17.0.2+react@17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-google-button: 0.7.2_react@17.0.2
+  react-hook-form: 7.14.0_react@17.0.2
   react-i18next: 11.11.4_i18next@20.4.0+react@17.0.2
   react-loading: 2.0.3_react@17.0.2
   react-router: 5.2.0_react@17.0.2
@@ -10227,6 +10229,14 @@ packages:
       react: '*'
     dependencies:
       prop-types: 15.7.2
+      react: 17.0.2
+    dev: false
+
+  /react-hook-form/7.14.0_react@17.0.2:
+    resolution: {integrity: sha512-JwnIFedpGwUqxtMLv7lLq8PS6M6snFVeDvAQnG/0lyForn0ucWKMr58j86+9HobUGX6SAFmv7sVIJdLaxxzb8A==}
+    peerDependencies:
+      react: ^16.8.0 || ^17
+    dependencies:
       react: 17.0.2
     dev: false
 
