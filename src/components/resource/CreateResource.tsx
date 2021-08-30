@@ -91,7 +91,7 @@ function CreateResource() {
     return (
         <div className="bg-blue-dark min-h-screen min-w-screen flex-cols items-center">
             {/* Top bar with title */}
-            <div className="flex fixed bg-purple w-screen h-12 justify-between">
+            <div className="flex fixed bg-purple w-screen h-12 justify-between z-10">
                 <p className="text-yellow text-2xl m-auto">{t("CreateResource")}</p>
                 <div className="absolute top-1 right-0 h-16 w-16">
                     <AllotrLogo width="40" height="40" className="flex"></AllotrLogo>
