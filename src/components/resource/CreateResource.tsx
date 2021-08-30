@@ -160,7 +160,7 @@ function CreateResource() {
                     <label
                         htmlFor="userList"
                         className="text-blue-light text-3xl text-left ml-3 m-auto block"
-                    >{`${t("SearchUsersForm")}*`}</label>
+                    >{`${t("UsersForm")}*`}</label>
                     <div className="mt-3 ml-2 pb-5">
                         {selectedUserList.map(user => (
                             <div className="mb-2 flex h-10 justify-between w-11/12" key={user.id}>
