@@ -24,14 +24,14 @@ function MiniActionButton({
   return (
     <button
       type={type}
-      className="h-10 w-10 bg-purple border-2 border-transparent hover:border-blue-light flex justify-between"
+      className="h-14 w-14 bg-purple border-2 border-transparent hover:border-blue-light flex justify-between"
       onClick={action}
     >
       {SVGLogo != null && (fill != null || stroke != null) ? (
         <div className="m-auto inline-block  align-middle">
           <SVGLogo
-            height="20px"
-            width="20px"
+            height="25px"
+            width="25px"
             fill={fill}
             stroke={stroke}
           ></SVGLogo>
