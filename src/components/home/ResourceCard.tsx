@@ -52,7 +52,7 @@ function ResourceCard({
                 <Link to={`/viewResource/${resourceId}`} className="text-yellow text-base text-left  hover:underline"> {name}</Link>
                 <p className="text-blue text-xs text-left">{`${t("CreatedBy")}${createdBy?.username ?? ""}`}</p>
                 <p className="text-blue-light text-sm text-left mt-3">{description}</p>
-                <p className="text-blue-light text-xs text-left mt-3 break-words">{`${t("LastUpdate")}:\r\n${new Date(lastModificationDate).toISOString().substring(0, 10)}`}</p>
+                <p className="text-blue-light text-xs text-left mt-3 break-words">{`${t("LastUpdate")}:\r\n${new Date(lastModificationDate).toLocaleDateString("es-ES").substring(0, 10)}`}</p>
             </div>
 
             <div className="mt-4 ml-2 mr-3  self-start">{componentMap[statusCode]}</div>

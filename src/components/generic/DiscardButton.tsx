@@ -8,7 +8,7 @@ function DiscardButton({ action, label }: { action: () => void, label: string })
     }, [])
 
     return (
-        <button className="w-28 h-9 bg-transparent border-opacity-50  border-blue-light border-2 flex hover:border-opacity-100 justify-items-center" onClick={action}>
+        <button type="button" className="w-28 h-9 bg-transparent border-opacity-50  border-blue-light border-2 flex hover:border-opacity-100 justify-items-center" onClick={action}>
             <p className="text-blue-light text-xl text-center m-auto inline-block  align-middle   ">{t(label)}</p>
         </button>
     );

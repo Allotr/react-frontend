@@ -21,6 +21,10 @@
         "DescriptionForm": "Descripción",
         "MaxUsersForm": "Máximos usuarios simultáneos",
         "UsersForm": "Usuarios",
-        "SearchUserTable": "Buscar"
+        "SearchUserTable": "Buscar",
+        "SearchPlaceholder": "  Nombre, apellido o username...",
+        "FieldRequired": "Este campo es obligatorio",
+        "InvalidNumberPositive": "Por favor, introduce un número positivo mayor que 0 y menor que 9999",
+        "SearchUsersForm": "Añade usuarios"
     }
 }

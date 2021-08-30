@@ -19,11 +19,6 @@ module.exports = {
         DEFAULT: '#E6B802',
       }
     }
-    // backgroundColor: theme => ({
-    //  'primary': '#093252',
-    //  'secondary': '#2F0954',
-    //  'button': '#49088A',
-    // })
   },
   variants: {
     extend: {},
