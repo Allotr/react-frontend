@@ -54,7 +54,7 @@ function SearchUsersTable({
 
     return (
         // Resource Card
-        <div className="usersTablestatic resourceCard bg-purple-dark h-72 w-11/12  break-all md:break-normal overflow-y-auto">
+        <div className="usersTablestatic resourceCard bg-purple-dark h-72 w-11/12  break-all md:break-normal overflow-y-scroll">
             {/* Search bar */}
             <div className="absolute h-14 pt-1 w-10/12 bg-purple-dark">
                 <div className="flex pt-1 pl-3 justify-items-end m-auto w-full ">
