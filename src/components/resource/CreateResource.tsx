@@ -166,9 +166,9 @@ function CreateResource() {
                     >{`${t("UsersForm")}*`}</label>
                     <div className="mt-3 ml-2 pb-5">
                         {selectedUserList.map(user => (
-                            <div className="mb-2 flex h-10 justify-between w-11/12" key={user.id}>
+                            <div className="mb-2 flex h-14 justify-between w-11/12" key={user.id}>
                                 {/* User data */}
-                                <p className="text-yellow block text-left pt-2 pl-3">{user.name} {user.surname} - {user.username}</p>
+                                <p className="text-yellow block text-left pt-4 pl-3">{user.name} {user.surname} - {user.username}</p>
                                 {/* Admin button */}
                                 <div className="flex justify-items-end">
                                     <div className="">
