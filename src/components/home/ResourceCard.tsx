@@ -4,7 +4,7 @@ import ClosedLock from "../../assets/ClosedLock";
 import OpenLock from "../../assets/OpenLock";
 import ActionButton from "../generic/ActionButton";
 import TurnIndicator from "../generic/TurnIndicator";
-import { TicketStatusCode } from "allotr-graphql-schema-types"
+import { ResourceCard as ResourceCardType, TicketStatusCode } from "allotr-graphql-schema-types"
 import ActiveUserStatus from "../generic/ActiveUserStatus";
 import { Link } from "react-router-dom"
 
@@ -16,28 +16,19 @@ function ResourceCard({
     lastModificationDate,
     activeUserCount,
     createdBy,
-    maxActiveTickets }: {
-        resourceId: string,
-        statusCode: TicketStatusCode,
-        name: string,
-        description?: string | null,
-        lastModificationDate: Date,
-        activeUserCount: number,
-        maxActiveTickets: number,
-        createdBy?: { userId?: string | null, username?: string | null } | undefined | null
-    }) {
+    queuePosition,
+    maxActiveTickets }: ResourceCardType) {
     const { t } = useTranslation();
     useEffect(() => {
         // Add your init code
     }, [])
     const action = () => { };
-    const queuePosition = 69;
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
         ACTIVE: <ActionButton action={action} label="ReleaseResource" logo={OpenLock} fill="#5ABAFF"></ActionButton>,
         AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
         INACTIVE: <ActionButton action={action} label="RequestResource" logo={ClosedLock} fill="#5ABAFF"></ActionButton>,
         INITIALIZED: <ActionButton action={action} label="RequestResource" logo={ClosedLock} fill="#5ABAFF"></ActionButton>,
-        QUEUED: <TurnIndicator queuePosition={queuePosition} ></TurnIndicator>,
+        QUEUED: <TurnIndicator queuePosition={queuePosition ?? 0} ></TurnIndicator>,
         REQUESTING: <div className="w-28 h-9" />,
         REVOKED: <div className="w-28 h-9" />
     }

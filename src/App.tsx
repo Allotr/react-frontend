@@ -18,12 +18,9 @@ import ViewResource from './components/resource/ViewResource';
 
 function App() {
   const { data, error, loading } = useQuery<CurrentUserQuery>(CurrentUser);
-  if (!loading && data?.currentUser?._id != null) {
+  if (!loading && data?.currentUser?._id != null && !error) {
     setSessionValue(CURRENT_USER_DATA, data.currentUser)
   }
-  console.log("Data loaded", data, data?.currentUser?._id)
-  console.log({ data, error, loading });
-
   return (
     <Router>
       <Switch>

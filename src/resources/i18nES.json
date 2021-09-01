@@ -26,6 +26,8 @@
         "FieldRequired": "Este campo es obligatorio",
         "InvalidNumberPositive": "Por favor, introduce un número positivo mayor que 0 y menor que 9999",
         "SearchUsersForm": "Añade usuarios",
-        "AddAUserError": "Debes añadir al menos un usuario"
+        "AddAUserError": "Debes añadir al menos un usuario",
+        "ResourceAvailableNotification": "El recurso que reservaste ya está disponible!",
+        "ResourceAvailableDescriptionNotification": "Entra a la aplicación para utilizarlo :)"
     }
 }
