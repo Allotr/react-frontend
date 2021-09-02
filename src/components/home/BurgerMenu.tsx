@@ -5,6 +5,7 @@ import { deleteSessionValue, getSessionValue } from "../../utils/storage-utils";
 import LongActionButton from "../generic/LongActionButton";
 import { UserDbObject } from "allotr-graphql-schema-types"
 import './BurgerMenu.css';
+import * as serviceWorkerRegistration from '../../serviceWorkerRegistration';
 
 
 
@@ -21,6 +22,7 @@ function BurgerMenu() {
             <div className="absolute bottom-0 left-0 h-16 w-16 ">
                 <LongActionButton action={() => {
                     deleteSessionValue(CURRENT_USER_DATA);
+                    serviceWorkerRegistration.unregister()
                     window.location.replace(EnvLoader.getInstance().loadedVariables.REACT_APP_GOOGLE_LOGOUT_ENDPOINT);
                 }} label="Logout" ></LongActionButton>
             </div>

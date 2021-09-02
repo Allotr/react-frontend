@@ -28,6 +28,16 @@
         "SearchUsersForm": "Añade usuarios",
         "AddAUserError": "Debes añadir al menos un usuario",
         "ResourceAvailableNotification": "El recurso que reservaste ya está disponible!",
-        "ResourceAvailableDescriptionNotification": "Entra a la aplicación para utilizarlo :)"
+        "ResourceAvailableDescriptionNotification": "Entra a Allotr para confirmar si sigues queriendo usarlo",
+        "DisableNotifications": "Desactivar notificaciones",
+        "GoToPage": "Entrar",
+        "AlreadyAvailable": "está disponible!",
+        "From": "de",
+        "ItsYourTurnTitle": "¡Ha llegado tu turno!",
+        "ItsYourTurnSubtitle": "está disponible y es tu turno de usarlo",
+        "DoYouWantToUseResourceQuestion": "¿Quieres usar el recurso ahora mismo?",
+        "CancelResourceAquireWarning": "Si cancelas, tendrás que volver a la lista de espera cuando quieras voler a usarlo.",
+        "Yes": "Sí",
+        "No": "No"
     }
 }

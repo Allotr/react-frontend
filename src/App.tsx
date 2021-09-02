@@ -25,7 +25,7 @@ function App() {
     <Router>
       <Switch>
         <Route path='/login' exact component={Login} />
-        {!loading ? <GuardedRoute path='/' auth={data?.currentUser?._id != null} exact component={Home} /> : null}
+        {!loading ? <GuardedRoute path='/' auth={data?.currentUser?._id != null} exact component={Home}/> : null}
         {!loading ? <GuardedRoute path='/createResource' auth={data?.currentUser?._id != null} exact component={CreateResource} /> : null}
         {!loading ? <GuardedRoute path='/viewResource/:id' auth={data?.currentUser?._id != null} exact component={ViewResource} /> : null}
         <Route path="*" component={LoadingScreen} />

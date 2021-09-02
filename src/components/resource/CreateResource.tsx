@@ -34,6 +34,7 @@ function CreateResource() {
 
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([]);
     const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, LocalRole>>({});
+    const [disabled, setDisabled] = useState(false);
 
     const [createResourceCall, { data, loading, error }] =
         useMutation<CreateResourceMutation>(CreateResourceGQL);
@@ -50,15 +51,16 @@ function CreateResource() {
             !error
         ) {
             history.push("/");
-            history.go(0);
         }
+        setDisabled(false);
     }, [loading, history, data, error]);
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = ({ name, description, maxActiveTickets }) => {
-        if(selectedUserList.length === 0){
+    const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
+        if (selectedUserList.length === 0) {
             return;
         }
+        setDisabled(true);
         const resource: InputResource = {
             name,
             maxActiveTickets,
@@ -68,9 +70,10 @@ function CreateResource() {
                 role: selectedRoleMap[id ?? ""] ?? LocalRole.ResourceUser,
             })),
         };
-        createResourceCall({
+        await createResourceCall({
             variables: { resource },
         });
+
     };
 
 
@@ -209,6 +212,7 @@ function CreateResource() {
                     <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                         <ActionButton
                             type="submit"
+                            disabled={disabled}
                             action={() => handleSubmit(onSubmit)}
                             label="CreateResourceButton"
                         />

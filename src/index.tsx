@@ -12,6 +12,7 @@ import {
 import { createHttpLink } from '@apollo/client';
 import { EnvLoader } from './utils/env-loader';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import NotificationDialogParent from './components/notifications/NotificationDialogParent';
 
 initializeBundles();
 
@@ -30,6 +31,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <React.StrictMode>
+      <NotificationDialogParent />
       <App />
     </React.StrictMode>
   </ApolloProvider>,

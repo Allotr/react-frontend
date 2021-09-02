@@ -9,10 +9,7 @@
 // service worker, and the Workbox build step will be skipped.
 
 import { clientsClaim } from 'workbox-core';
-import { ExpirationPlugin } from 'workbox-expiration';
-import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { precacheAndRoute } from 'workbox-precaching';
 import { EnvLoader } from './utils/env-loader';
 import {
     ApolloClient,
@@ -25,7 +22,7 @@ import i18n from './i18nGeneric';
 
 declare const self: ServiceWorkerGlobalScope;
 
-const { REACT_APP_WEBPUSH_ENDPOINT } = EnvLoader.getInstance().loadedVariables;
+const { REACT_APP_WEBPUSH_ENDPOINT, REACT_APP_REDIRECT_URL } = EnvLoader.getInstance().loadedVariables;
 
 
 // Add Apollo Client
@@ -79,7 +76,6 @@ self.addEventListener('push', function (event) {
         getEndpoint()
             .then(function (endpoint) {
                 // Call your GraphQL to retrieve data
-                // return fetch('./getPayload?endpoint=' + endpoint);
                 return client.query<MyNotificationDataQuery>({ query: MyNotificationData })
             })
             .then(function ({ data }) {
@@ -87,21 +83,32 @@ self.addEventListener('push', function (event) {
                 return data.myNotificationData;
             })
             .then(function (payload) {
-                const { ticketStatus, titleRef, descriptionRef, resource } = payload[0];
+                const { descriptionRef, resource } = payload[0];
                 // Use your data
-                self.registration.showNotification(i18n.t(titleRef ?? ""), {
-                    body: i18n.t(descriptionRef ?? "")
-                })
+                const title = `"${resource?.name}" ${i18n.t("From")} ${resource?.createdBy?.username} ${i18n.t("AlreadyAvailable")}`;
+                const options = {
+                    body: `${i18n.t(descriptionRef ?? "")}`,
+                    actions: [{ action: "NAVIGATE", title: i18n.t("GoToPage") }],
+                    icon: "https://feranern.sirv.com/Images/nodos.png"
+                }
+                self.registration.showNotification(title, options)
+
             })
     );
 });
 
-//     event.waitUntil(new Promise(resolve => {
-//         resolve(self.registration.showNotification('Soy una notificación', {
-//             body: 'Tengo tremendo mensaje importante, bro'
-//         }))
-//     }));
-// });
+self.addEventListener('notificationclick', function (event) {
+    if (!event.action) {
+        // Was a normal notification click
+        console.log('Notification Click.');
+        return;
+    }
+
+    event.notification.close();
+    event.waitUntil(
+        self.clients.openWindow(REACT_APP_REDIRECT_URL)
+    );
+});
 
 // Listen to  `pushsubscriptionchange` event which is fired when
 // subscription expires. Subscribe again and register the new subscription

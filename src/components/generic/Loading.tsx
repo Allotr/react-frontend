@@ -9,7 +9,9 @@ function Loading() {
   }, [])
 
   return (
-    <ReactLoading type={type} color={color} height={'50px'} width={'50px'} />
+    <div className="block m-auto">
+      <ReactLoading type={type} color={color} height={'50px'} width={'50px'} />
+    </div>
   );
 }
 

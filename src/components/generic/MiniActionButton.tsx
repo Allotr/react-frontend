@@ -5,6 +5,7 @@ function MiniActionButton({
   logo: SVGLogo,
   fill,
   stroke,
+  disabled = false
 }: {
   action: () => void;
   type?: "button" | "reset" | "submit" | undefined;
@@ -16,6 +17,7 @@ function MiniActionButton({
     stroke?: string;
   }>;
   stroke?: string;
+  disabled?: boolean;
 }) {
   useEffect(() => {
     // Add your init code
@@ -26,6 +28,7 @@ function MiniActionButton({
       type={type}
       className="h-14 w-14 bg-purple border-2 border-transparent hover:border-blue-light flex justify-between"
       onClick={action}
+      disabled={disabled}
     >
       {SVGLogo != null && (fill != null || stroke != null) ? (
         <div className="m-auto inline-block  align-middle">

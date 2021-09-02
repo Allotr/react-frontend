@@ -94,7 +94,6 @@ if ('serviceWorker' in navigator) {
                 applicationServerKey: convertedVapidKey
             });
         }).then(function (subscription) {
-            console.log('Subscribed', subscription.endpoint);
             return fetch(`${REACT_APP_WEBPUSH_ENDPOINT}/webpush/register`, {
                 credentials: "include",
                 method: 'post',
