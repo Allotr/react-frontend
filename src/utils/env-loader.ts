@@ -7,7 +7,12 @@ export class EnvLoader {
     private constructor() {
         this.loadedVariables = {} as EnvObject;
         const variablesToLoad: Partial<EnvObject> = {
-            REACT_APP_WS_API_ENDPOINT: undefined, REACT_APP_HTTPS_API_ENDPOINT: undefined
+            REACT_APP_WS_API_ENDPOINT: undefined,
+            REACT_APP_HTTPS_API_ENDPOINT: undefined,
+            REACT_APP_GOOGLE_LOGIN_ENDPOINT: undefined,
+            REACT_APP_GOOGLE_LOGOUT_ENDPOINT: undefined,
+            REACT_APP_WEBPUSH_ENDPOINT: undefined,
+            REACT_APP_REDIRECT_URL: undefined
         }
         const loadedVariables = Object.fromEntries(Object.entries(variablesToLoad).map(([key]) => ([key, process.env[key]])));
         if (!this.areVariablesValid(loadedVariables)) {
