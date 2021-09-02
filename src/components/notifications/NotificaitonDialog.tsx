@@ -7,7 +7,6 @@ import ActionButton from "../generic/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
 import { useMutation } from "@apollo/client";
 import ClosedLock from "../../assets/ClosedLock";
-import OpenLock from "../../assets/OpenLock";
 import { COLORS } from "../../consts/colors";
 
 function NotificationDialog({ data: props }: { data: ResourceNotification[] }) {
