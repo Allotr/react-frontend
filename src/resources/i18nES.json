@@ -38,6 +38,7 @@
         "DoYouWantToUseResourceQuestion": "¿Quieres usar el recurso ahora mismo?",
         "CancelResourceAquireWarning": "Si cancelas, tendrás que volver a la lista de espera cuando quieras voler a usarlo.",
         "Yes": "Sí",
-        "No": "No"
+        "No": "No",
+        "NewDataRefresh": "¡Hay nuevos cambios! Refresca la página"
     }
 }
