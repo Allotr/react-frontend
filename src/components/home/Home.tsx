@@ -10,7 +10,7 @@ import { useQuery } from "@apollo/client";
 import { MyResourcesQuery, MyResources, ResourceCard as ResourceCardType } from "allotr-graphql-schema-types";
 
 function Home() {
-  const { data, loading } = useQuery<MyResourcesQuery>(MyResources, { pollInterval: 1000 });
+  const { data, loading } = useQuery<MyResourcesQuery>(MyResources, { pollInterval: 300 });
   const { t } = useTranslation();
   const history = useHistory();
   const [resourceList, setResourceLIst] = useState<ResourceCardType[]>(data?.myResources ?? []);
@@ -34,7 +34,7 @@ function Home() {
         <AddButton action={() => history.push("/createResource")}></AddButton>
       </div>
       <div className="pt-20"></div>
-      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} />))}
+      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} loading={loading}/>))}
       <div className="pb-52"></div>
       <Credits></Credits>
     </div>

@@ -23,8 +23,9 @@ function ResourceCard({
     creationDate,
     lastStatusTimestamp,
     role,
-    ticketId
-}: ResourceCardType) {
+    ticketId,
+    loading
+}: ResourceCardType & { loading: boolean }) {
 
     const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource)
     const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource)
@@ -44,6 +45,10 @@ function ResourceCard({
         role,
         ticketId
     });
+
+    useEffect(() => {
+        setDisabled(loading);
+    }, [loading])
 
     const { t } = useTranslation();
     useEffect(() => {
