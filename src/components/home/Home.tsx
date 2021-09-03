@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AllotrLogo from "../../assets/AllotrLogo";
 import BurgerMenu from "./BurgerMenu";
@@ -13,21 +13,11 @@ function Home() {
   const { data, loading } = useQuery<MyResourcesQuery>(MyResources, { pollInterval: 300 });
   const { t } = useTranslation();
   const history = useHistory();
-  const isInit = useRef(true);
   const [resourceList, setResourceLIst] = useState<ResourceCardType[]>(data?.myResources ?? []);
-  const [newData, setNewData] = useState(false);
-  const resourceListRef = useRef<ResourceCardType[]>(data?.myResources ?? []);
-
   useEffect(() => {
     const newResources = data?.myResources;
-    if (loading || newResources == null) return;
-
-    if (isInit.current) {
-      resourceListRef.current = newResources;
-      setResourceLIst(resourceListRef.current);
-      isInit.current = false;
-    } else {
-      setNewData(true);
+    if (!loading && newResources != null) {
+      setResourceLIst(newResources)
     }
   }, [data, loading])
 
@@ -43,8 +33,8 @@ function Home() {
       <div>
         <AddButton action={() => history.push("/createResource")}></AddButton>
       </div>
-      {newData ? <p className="text-blue-light text-xl text-center m-auto block pt-12 pb-1">{t('NewDataRefresh')}</p> : <div className="pt-20"></div>}
-      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} loading={loading} />))}
+      <div className="pt-20"></div>
+      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} loading={loading}/>))}
       <div className="pb-52"></div>
       <Credits></Credits>
     </div>

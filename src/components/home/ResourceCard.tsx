@@ -24,9 +24,8 @@ function ResourceCard({
     lastStatusTimestamp,
     role,
     ticketId,
-    loading,
-    onCardUpdated
-}: ResourceCardType & { loading: boolean, onCardUpdated?: (card: ResourceCardType, resourceId: string) => void }) {
+    loading
+}: ResourceCardType & { loading: boolean }) {
 
     const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource)
     const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource)
@@ -91,7 +90,6 @@ function ResourceCard({
         }
         const resourceCard = data?.releaseResource.updatedResourceCard as ResourceCardType;
         setCurrentCard(resourceCard);
-        onCardUpdated?.(resourceCard, resourceId);
     }
 
     const requestResource = async () => {
@@ -103,7 +101,6 @@ function ResourceCard({
         }
         const resourceCard = data?.requestResource.updatedResourceCard as ResourceCardType;
         setCurrentCard(resourceCard);
-        onCardUpdated?.(resourceCard, resourceId);
     }
 
 
