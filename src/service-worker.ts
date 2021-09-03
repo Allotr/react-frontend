@@ -84,15 +84,19 @@ self.addEventListener('push', function (event) {
                 return data.myNotificationData;
             })
             .then(function (payload) {
-                const { descriptionRef, resource } = payload[0];
-                // Use your data
-                const title = `"${resource?.name}" ${i18n.t("From")} ${resource?.createdBy?.username} ${i18n.t("AlreadyAvailable")}`;
-                const options = {
-                    body: `${i18n.t(descriptionRef ?? "")}`,
-                    actions: [{ action: "NAVIGATE", title: i18n.t("GoToPage") }],
-                    icon: "https://feranern.sirv.com/Images/nodos.png"
-                }
-                self.registration.showNotification(title, options)
+                payload?.forEach(payload=>{
+                    const { descriptionRef, resource } = payload;
+                    // Use your data
+                    const title = `"${resource?.name}" ${i18n.t("From")} ${resource?.createdBy?.username} ${i18n.t("AlreadyAvailable")}`;
+                    const options = {
+                        body: `${i18n.t(descriptionRef ?? "")}`,
+                        actions: [{ action: "NAVIGATE", title: i18n.t("GoToPage") }],
+                        tag: payload.id ?? "",
+                        icon: "https://feranern.sirv.com/Images/nodos.png"
+                    }
+                    self.registration.showNotification(title, options)
+                });
+
 
             })
     );
