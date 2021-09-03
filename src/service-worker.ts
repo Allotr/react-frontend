@@ -85,6 +85,7 @@ self.addEventListener('push', function (event) {
             })
             .then(function (payload) {
                 payload?.forEach(payload=>{
+                    console.log("PAYLOAD NEW", payload, payload.id, payload.resource?.id)
                     const { descriptionRef, resource } = payload;
                     // Use your data
                     const title = `"${resource?.name}" ${i18n.t("From")} ${resource?.createdBy?.username} ${i18n.t("AlreadyAvailable")}`;
@@ -94,6 +95,7 @@ self.addEventListener('push', function (event) {
                         tag: payload.id ?? "",
                         icon: "https://feranern.sirv.com/Images/nodos.png"
                     }
+                    console.log("OPTIONS", options);
                     self.registration.showNotification(title, options)
                 });
 
