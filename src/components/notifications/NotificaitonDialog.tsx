@@ -11,13 +11,13 @@ import { COLORS } from "../../consts/colors";
 
 function NotificationDialog({ data: props }: { data: ResourceNotification[] }) {
   const listReference = useRef(props);
-  const [listState, setListState] = useState(props)
+  const [listState, setListState] = useState(props ?? [])
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
   const closeModal = () => {
     setOpen(false);
     listReference.current = listReference.current.slice(0, -1);
-    setListState(listReference.current);
+    setListState(listReference.current ?? []);
     if (listReference?.current.length > 0) {
       setTimeout(() => setOpen(true), 100);
     }
@@ -29,7 +29,7 @@ function NotificationDialog({ data: props }: { data: ResourceNotification[] }) {
   const [callCancelAcquireResource] = useMutation<CancelResourceAcquireMutation, CancelResourceAcquireMutationVariables>(CancelResourceAcquire)
 
   useEffect(() => {
-    setListState(props);
+    setListState(props ?? []);
     const myNewList: ResourceNotification[] = listReference.current;
     props?.forEach(prop => addNewValue(prop))
     function addNewValue(localValue: ResourceNotification) {
