@@ -77,13 +77,16 @@ self.addEventListener('push', function (event) {
         getEndpoint()
             .then(function (endpoint) {
                 // Call your GraphQL to retrieve data
+                console.log("query to apply", MyNotificationData);
                 return client.query<MyNotificationDataQuery>({ query: MyNotificationData })
             })
             .then(function ({ data }) {
                 // Process your data
+                console.log("service response", data)
                 return data.myNotificationData;
             })
             .then(function (payload) {
+                console.log("service response, total", payload)
                 payload?.forEach(payload=>{
                     console.log("PAYLOAD NEW", payload, payload.id, payload.resource?.id)
                     const { descriptionRef, resource } = payload;
