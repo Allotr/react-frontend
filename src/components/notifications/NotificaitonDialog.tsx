@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { AcquireResource, AcquireResourceMutation, AcquireResourceMutationVariables, CancelResourceAcquire, CancelResourceAcquireMutation, CancelResourceAcquireMutationVariables, OperationResult, ResourceNotification } from "allotr-graphql-schema-types";
 import { useTranslation } from "react-i18next";
 import Popup from 'reactjs-popup';
@@ -10,19 +10,35 @@ import ClosedLock from "../../assets/ClosedLock";
 import { COLORS } from "../../consts/colors";
 
 function NotificationDialog({ data: props }: { data: ResourceNotification[] }) {
-  const initialList: ResourceNotification[] = []
-  const [listReference, setListReference] = useState(initialList);
+  const listReference = useRef(props);
+  const [listState, setListState] = useState(props)
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
-  const closeModal = () => setOpen(false);
+  const closeModal = () => {
+    setOpen(false);
+    listReference.current = listReference.current.slice(0, -1);
+    setListState(listReference.current);
+    if (listReference?.current.length > 0) {
+      setTimeout(() => setOpen(true), 100);
+    }
+
+  }
+
 
   const [callAqquireResource] = useMutation<AcquireResourceMutation, AcquireResourceMutationVariables>(AcquireResource)
   const [callCancelAcquireResource] = useMutation<CancelResourceAcquireMutation, CancelResourceAcquireMutationVariables>(CancelResourceAcquire)
 
   useEffect(() => {
-    setListReference(props ?? []);
-    if (props?.length > 0 && props?.[0]?.id != null) {
-      setOpen(true);
+    setListState(props);
+    const myNewList: ResourceNotification[] = listReference.current;
+    props?.forEach(prop => addNewValue(prop))
+    function addNewValue(localValue: ResourceNotification) {
+      if (localValue == null || listReference.current.findIndex(({ id }) => localValue.id === id) !== -1) {
+        return;
+      }
+      myNewList.push(localValue);
+      setOpen(true)
+      listReference.current = myNewList;
     }
   }, [props])
 
@@ -53,7 +69,7 @@ function NotificationDialog({ data: props }: { data: ResourceNotification[] }) {
   return (
     <div>
       <ul>
-        {listReference?.map((item) => (
+        {listState.map((item) => (
           <Popup open={open} onClose={() => { }} closeOnDocumentClick={false} closeOnEscape={false} position="right center">
             {/* Title */}
             <p className="text-yellow text-4xl font-bold m-auto text-center">{t("ItsYourTurnTitle")}</p>
