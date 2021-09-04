@@ -92,6 +92,8 @@ self.addEventListener('push', function (event) {
                         body: `${i18n.t(descriptionRef ?? "")}`,
                         actions: [{ action: "NAVIGATE", title: i18n.t("GoToPage") }],
                         tag: payload.id ?? "",
+                        renotify: true,
+                        requireInteraction: true,
                         icon: "https://feranern.sirv.com/Images/nodos.png"
                     }
                     self.registration.showNotification(title, options)
