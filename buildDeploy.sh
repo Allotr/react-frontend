@@ -1,6 +1,7 @@
 #!/bin/bash
-#npm i
-#npm run build
+npm i -g pnpm 
+pnpm i
+pnpm run build
 docker build -t allotr-react-frontend .
 docker tag allotr-react-frontend rafaelpernil/allotr-react-frontend
 docker push rafaelpernil/allotr-react-frontend
