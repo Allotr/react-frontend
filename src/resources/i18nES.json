@@ -39,6 +39,11 @@
         "CancelResourceAquireWarning": "Si cancelas, tendrás que volver a la lista de espera cuando quieras voler a usarlo.",
         "Yes": "Sí",
         "No": "No",
-        "NewDataRefresh": "¡Hay nuevos cambios! Refresca la página"
+        "NewDataRefresh": "¡Hay nuevos cambios! Refresca la página",
+        "NameViewResource": "Nombre",
+        "DescriptionViewResource": "Descripción",
+        "MaxUsersViewResource": "Máximos usuarios simultáneos",
+        "UsersViewResource": "Usuarios activos y cola"
+
     }
 }

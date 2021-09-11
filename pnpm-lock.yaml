@@ -17,7 +17,7 @@ specifiers:
   '@types/react-router-dom': ^5.1.8
   '@types/tailwindcss': ^2.2.1
   '@types/web-push': ^3.3.2
-  allotr-graphql-schema-types: ^0.0.11
+  allotr-graphql-schema-types: 0.0.12
   autoprefixer: '9'
   file-loader: ^6.2.0
   graphql: ^15.5.0
@@ -70,7 +70,7 @@ dependencies:
   '@types/react-router-dom': 5.1.8
   '@types/tailwindcss': 2.2.1
   '@types/web-push': 3.3.2
-  allotr-graphql-schema-types: 0.0.11
+  allotr-graphql-schema-types: 0.0.12
   file-loader: 6.2.0
   graphql: 15.5.1
   graphql-ws: 4.9.0_graphql@15.5.1
@@ -3075,8 +3075,8 @@ packages:
       uri-js: 4.4.1
     dev: false
 
-  /allotr-graphql-schema-types/0.0.11:
-    resolution: {integrity: sha512-dwgfjP9yRkh6CGstQHsLqnbf3zY65Fn/wy8cnXbN656aFkINB0KWlTTyO82Uy45zzqOf/WsKwUcfVDhk3sF7Dw==}
+  /allotr-graphql-schema-types/0.0.12:
+    resolution: {integrity: sha512-DPvMLY8xNLZPx3+tIao1Nku8eAo6BWM16WG0wiVqbbhK+ZzpuSGt+Eeud5oZme1jxvql2zmCkiwHI13ol3UuYg==}
     dependencies:
       '@graphql-codegen/typescript-mongodb': 2.1.2_339c8e4631a39e72b37b7f68d769d0af
       '@types/react': 17.0.19
