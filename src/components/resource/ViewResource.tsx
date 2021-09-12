@@ -5,7 +5,7 @@ import DiscardButton from "../generic/DiscardButton";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
-import { ViewResourceQuery, ViewResource as ViewResourceGQL, ResourceView, LocalRole, TicketStatusCode, RequestSource, UserDbObject, ReleaseResource, ReleaseResourceMutation, ReleaseResourceMutationVariables, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, DeleteResourceMutation, DeleteResourceMutationVariables, DeleteResource, TicketView } from "allotr-graphql-schema-types";
+import { ViewResourceQuery, ViewResource as ViewResourceGQL, ResourceView, LocalRole, TicketStatusCode, RequestSource, UserDbObject, ReleaseResource, ReleaseResourceMutation, ReleaseResourceMutationVariables, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, TicketView } from "allotr-graphql-schema-types";
 import Key from "../../assets/Key";
 import { COLORS } from "../../consts/colors";
 import MiniActionButton from "../generic/MiniActionButton";
@@ -30,7 +30,7 @@ function ViewResource() {
     const { data, loading, error } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 300 })
     const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource)
     const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource)
-    const [callDeleteResource] = useMutation<DeleteResourceMutation, DeleteResourceMutationVariables>(DeleteResource)
+    
     const [disabled, setDisabled] = useState(false);
     const [ticketListToShow, setTicketListToShow] = useState<TicketView[]>([]);
     const [myTicket, setMyTicket] = useState<TicketView | undefined>();
@@ -88,16 +88,7 @@ function ViewResource() {
         }
     }
 
-    const deleteResource = async () => {
-        setDisabled(true);
-        const { errors } = await callDeleteResource({ variables: { resourceId: id } });
-        setDisabled(false);
-        if (errors) {
-            return;
-        }
-        history.push("/")
 
-    }
 
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
         ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.blue.light} disabled={disabled} ></ActionButton>,
@@ -134,7 +125,7 @@ function ViewResource() {
                         <div className="flex">
                             <div><MiniActionButton action={() => { history.push(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen}></MiniActionButton></div>
                             <div className="w-2"></div>
-                            <div><MiniActionButton action={() => { deleteResource() }} fill={COLORS.blue.light} logo={TrashCan}></MiniActionButton></div>
+                            <div><MiniActionButton action={() => { history.push(`/deleteResource/${id}`) }} fill={COLORS.blue.light} logo={TrashCan}></MiniActionButton></div>
                         </div>
                         : null}
 

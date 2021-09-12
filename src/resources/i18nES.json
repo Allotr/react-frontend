@@ -58,6 +58,10 @@
         "DeleteAccountWarning": "Activando esta opción se borrarán TODOS los recursos que hayas creado",
         "DeleteAccountWithoutChecking": "Borrar todo sin comprobar",
         "Discard": "Descartar",
-        "AddAnAdminError": "Debes tener al menos un administrador"
+        "AddAnAdminError": "Debes tener al menos un administrador",
+        "AreYouSureDeleteResourceStart": "¿Seguro que deseas borrar \"",
+        "AreYouSureDeleteResourceEnd": "\"?",
+        "DeleteResourceWarining": "Si borras este recurso, todos los usuarios con los que fue compartido no podrán usarlo más",
+        "DeleteResource": "Borrar Recurso"
     }
 }

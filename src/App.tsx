@@ -18,6 +18,7 @@ import ViewResource from './components/resource/ViewResource';
 import EditResource from './components/resource/EditResource';
 import Settings from './components/settings/Settings';
 import DeleteAccount from './components/settings/DeleteAccount';
+import DeleteResource from './components/resource/DeleteResource';
 
 function App() {
   const { data, error, loading } = useQuery<CurrentUserQuery>(CurrentUser);
@@ -32,6 +33,7 @@ function App() {
         {!loading ? <GuardedRoute path='/createResource' auth={data?.currentUser?._id != null} exact component={CreateResource} /> : null}
         {!loading ? <GuardedRoute path='/viewResource/:id' auth={data?.currentUser?._id != null} exact component={ViewResource} /> : null}
         {!loading ? <GuardedRoute path='/editResource/:id' auth={data?.currentUser?._id != null} exact component={EditResource} /> : null}
+        {!loading ? <GuardedRoute path='/deleteResource/:id' auth={data?.currentUser?._id != null} exact component={DeleteResource} /> : null}
         {!loading ? <GuardedRoute path='/settings' auth={data?.currentUser?._id != null} exact component={Settings} /> : null}
         {!loading ? <GuardedRoute path='/deleteAccount' auth={data?.currentUser?._id != null} exact component={DeleteAccount} /> : null}
         <Route path="*" component={LoadingScreen} />
