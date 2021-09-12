@@ -18,11 +18,11 @@ function SearchUsersTable({
     onSelectedUserListChanged: (userList: PublicUser[]) => void;
 }) {
     const { t } = useTranslation();
-
     const [textToQuery, setTextToQuery] = useState(searchString);
     const [inpuText, setInputText] = useState("");
     const [searchResult, setSearchResult] = useState<PublicUser[]>([]);
     const [hasClickedSearch, setHasClickedSearch] = useState<boolean>(false);
+    const [selectedUserListState, setSelectedUserListState] = useState<PublicUser[]>([]);
 
     // Event listeners
     const onSearchClick = () => {
@@ -32,22 +32,22 @@ function SearchUsersTable({
 
     const onSearchResultLoaded = (userList: PublicUser[]) => {
         setHasClickedSearch(false);
-        filterRefreshResults(userList, selectedUserList);
+        filterRefreshResults(userList, selectedUserListState);
     };
 
-    // Init code
     useEffect(() => {
         // Make initial search
+        setSelectedUserListState(selectedUserList);
         setHasClickedSearch(true);
-    }, [])
+    }, [selectedUserList])
 
     const filterRefreshResults = (userList: PublicUser[], selectedUserList: PublicUser[]) => {
-        const filteredUsers = userList.filter(user => !selectedUserList.includes(user));
+        const filteredUsers = userList.filter(user => !selectedUserList.some(({ id }) => id === user.id));
         setSearchResult(filteredUsers);
     };
 
     const onAddClickListener = (publicUser: PublicUser) => {
-        const newUserList = [...selectedUserList, publicUser];
+        const newUserList = [...selectedUserListState, publicUser];
         filterRefreshResults(searchResult, newUserList);
         onSelectedUserListChanged(newUserList);
     };

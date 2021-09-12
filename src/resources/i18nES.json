@@ -43,7 +43,21 @@
         "NameViewResource": "Nombre",
         "DescriptionViewResource": "Descripción",
         "MaxUsersViewResource": "Máximos usuarios simultáneos",
-        "UsersViewResource": "Usuarios activos y cola"
-
+        "UsersViewResource": "Usuarios activos y cola",
+        "EditResource": "Editar Recurso",
+        "UpdateResourceButton": "Guardar",
+        "NoUsersActive": "No hay usuarios activos o en la cola",
+        "ActiveTicketLimitChangeWarning": "Este cambio sólo se verá reflejado cuando la cola se quede vacía",
+        "Back": "Atrás",
+        "DeleteAccountButton": "Borrar cuenta",
+        "DeleteAccount": "Borrar Cuenta",
+        "YourAccount": "Tu cuenta",
+        "Confirm": "Confirmar",
+        "AreYouSureDeleteAccount": "¿Seguro que deseas borrar tu cuenta?",
+        "DeleteAccountInfo": "Si borras tu cuenta, se borrarán todos los recursos que estás compartiendo y no tienen otro administrador asignado",
+        "DeleteAccountWarning": "Activando esta opción se borrarán TODOS los recursos que hayas creado",
+        "DeleteAccountWithoutChecking": "Borrar todo sin comprobar",
+        "Discard": "Descartar",
+        "AddAnAdminError": "Debes tener al menos un administrador"
     }
 }

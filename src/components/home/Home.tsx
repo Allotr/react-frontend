@@ -13,13 +13,14 @@ function Home() {
   const { data, loading } = useQuery<MyResourcesQuery>(MyResources, { pollInterval: 300 });
   const { t } = useTranslation();
   const history = useHistory();
-  const [resourceList, setResourceLIst] = useState<ResourceCardType[]>(data?.myResources ?? []);
+  const myResources = data?.myResources;
+  const [resourceList, setResourceLIst] = useState<ResourceCardType[]>(myResources ?? []);
   useEffect(() => {
-    const newResources = data?.myResources;
+    const newResources = myResources;
     if (!loading && newResources != null) {
       setResourceLIst(newResources)
     }
-  }, [data, loading])
+  }, [data, loading, myResources])
 
   return (
     <div className="login bg-blue-dark min-h-screen min-w-screen flex-cols items-center">

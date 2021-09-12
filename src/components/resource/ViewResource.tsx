@@ -5,7 +5,7 @@ import DiscardButton from "../generic/DiscardButton";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
-import { ViewResourceQuery, ViewResource as ViewResourceGQL, ResourceView, LocalRole, TicketStatusCode, RequestSource, UserDbObject, ReleaseResource, ReleaseResourceMutation, ReleaseResourceMutationVariables, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, DeleteResourceMutation, DeleteResourceMutationVariables, DeleteResource } from "allotr-graphql-schema-types";
+import { ViewResourceQuery, ViewResource as ViewResourceGQL, ResourceView, LocalRole, TicketStatusCode, RequestSource, UserDbObject, ReleaseResource, ReleaseResourceMutation, ReleaseResourceMutationVariables, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, DeleteResourceMutation, DeleteResourceMutationVariables, DeleteResource, TicketView } from "allotr-graphql-schema-types";
 import Key from "../../assets/Key";
 import { COLORS } from "../../consts/colors";
 import MiniActionButton from "../generic/MiniActionButton";
@@ -27,20 +27,16 @@ function ViewResource() {
 
     const { id } = useParams<{ id: string }>();
 
-    const { data, loading } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 300 })
+    const { data, loading, error } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 300 })
     const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource)
     const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource)
     const [callDeleteResource] = useMutation<DeleteResourceMutation, DeleteResourceMutationVariables>(DeleteResource)
     const [disabled, setDisabled] = useState(false);
+    const [ticketListToShow, setTicketListToShow] = useState<TicketView[]>([]);
+    const [myTicket, setMyTicket] = useState<TicketView | undefined>();
+    const [viewResource, setViewResource] = useState<ResourceView>();
 
-    const viewResource = !loading ? data?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView;
-    const ticketList = viewResource?.tickets ?? [];
-    const ticketListToShow = ticketList.filter(({ lastStatus }) => [
-        TicketStatusCode.Active,
-        TicketStatusCode.AwaitingConfirmation,
-        TicketStatusCode.Queued
-    ].includes(lastStatus.statusCode)
-    );
+
     const statusIndicatorMap: Record<TicketStatusCode, ReactElement | null> = {
         ACTIVE: <ClosedLock fill={COLORS.yellow.DEFAULT} height="25px" width="25px"></ClosedLock>,
         AWAITING_CONFIRMATION: <QuestionMark fill={COLORS.yellow.DEFAULT} height="25px" width="25px"></QuestionMark>,
@@ -52,9 +48,27 @@ function ViewResource() {
     }
 
     useEffect(() => {
+        if (error || (!loading && data?.viewResource == null)){
+            history.push("/");
+            return;
+        }
+        if (loading) {
+            return;
+        }
+        setViewResource(data?.viewResource as ResourceView);
+        const ticketList = viewResource?.tickets ?? [];
+        setTicketListToShow(ticketList.filter(({ lastStatus }) => [
+            TicketStatusCode.Active,
+            TicketStatusCode.AwaitingConfirmation,
+            TicketStatusCode.Queued
+        ].includes(lastStatus.statusCode)));
+        setMyTicket(ticketList.find(({ user }) => user.userId === _id ?? ""))
+    }, [data, loading, error, _id, viewResource, history])
+
+    useEffect(() => {
         setDisabled(loading);
     }, [loading])
-    const myTicket = ticketList.find(({ user }) => user.userId === _id ?? "")
+
 
     const releaseResource = async () => {
         setDisabled(true);
@@ -81,6 +95,8 @@ function ViewResource() {
         if (errors) {
             return;
         }
+        history.push("/")
+
     }
 
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
@@ -114,12 +130,17 @@ function ViewResource() {
                         htmlFor="name"
                         className="text-blue-light text-3xl text-left ml-3 m-auto block"
                     >{`${t("NameViewResource")}`}</label>
-                    <div><MiniActionButton action={() => { history.push(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen}></MiniActionButton></div>
-                    <div className="w-2"></div>
-                    <div><MiniActionButton action={() => { deleteResource() }} fill={COLORS.blue.light} logo={TrashCan}></MiniActionButton></div>
+                    {myTicket?.user.role === LocalRole.ResourceAdmin ?
+                        <div className="flex">
+                            <div><MiniActionButton action={() => { history.push(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen}></MiniActionButton></div>
+                            <div className="w-2"></div>
+                            <div><MiniActionButton action={() => { deleteResource() }} fill={COLORS.blue.light} logo={TrashCan}></MiniActionButton></div>
+                        </div>
+                        : null}
+
                 </div>
                 <p className="block mt-3   text-yellow ml-3 pl-3 w-4/5">
-                    {viewResource.name}
+                    {viewResource?.name}
                 </p>
                 {/* Description */}
                 <label
@@ -130,7 +151,7 @@ function ViewResource() {
                 </label>
                 <p
                     className="block mt-3 pt-1 mb-5  text-yellow ml-3  pl-3 w-4/5 " >
-                    {viewResource.description ?? ""}</p>
+                    {viewResource?.description ?? ""}</p>
 
                 {/* Max Active tickets */}
                 <label
@@ -139,7 +160,7 @@ function ViewResource() {
                 >{`${t("MaxUsersViewResource")}`}</label>
                 <p
                     className="block mt-3   text-yellow ml-3 h-10 pl-3 w-1/4">
-                    {viewResource.maxActiveTickets}
+                    {viewResource?.maxActiveTickets}
                 </p>
                 {/* View active users and queue */}
                 <label
@@ -147,7 +168,7 @@ function ViewResource() {
                     className="text-blue-light text-3xl text-left ml-3 mt-2 m-auto block"
                 >{`${t("UsersViewResource")}`}</label>
                 <div className="mt-3 ml-2 pb-5">
-                    {ticketListToShow.map(ticket => (
+                    {ticketListToShow.length > 0 ? ticketListToShow.map(ticket => (
                         <div className="mb-2 flex h-14 justify-between w-11/12" key={ticket.user.userId}>
                             {/* User data */}
                             <p className="text-yellow block text-left pt-4 pl-3">{ticket.user.name} {ticket.user.surname} - {ticket.user.username}</p>
@@ -176,7 +197,7 @@ function ViewResource() {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    )) : <p className="text-yellow block text-left pt-4 pl-3 italic">{t("NoUsersActive")}</p>}
                 </div>
 
                 {/* Bottom spacing */}
@@ -186,7 +207,7 @@ function ViewResource() {
             {/* Action Buttons */}
             <div className="buttonBar  flex justify-around pb-6">
                 <div className=" flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                    <DiscardButton action={() => history.push("/")} label="Cancel" />
+                    <DiscardButton action={() => history.push("/")} label="Back" />
                 </div>
                 <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                     <div className="self-start">{componentMap[myTicket?.lastStatus.statusCode ?? TicketStatusCode.Revoked]}</div>
