@@ -14,7 +14,8 @@ import { EnvLoader } from './utils/env-loader';
 import {
     ApolloClient,
     InMemoryCache,
-    createHttpLink
+    createHttpLink,
+    DefaultOptions
 } from "@apollo/client";
 import { MyNotificationData, MyNotificationDataQuery } from 'allotr-graphql-schema-types';
 
@@ -32,10 +33,22 @@ const link = createHttpLink({
     credentials: "include"
 })
 
+const defaultOptions: DefaultOptions = {
+    watchQuery: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'ignore',
+    },
+    query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+    },
+}
+
 // This is the client we will use for all queries inside the webworker
 const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link
+    link,
+    defaultOptions
 });
 
 
@@ -69,39 +82,49 @@ function getEndpoint() {
         });
 }
 
+async function getMyNotifications() {
+    await getEndpoint();
+
+    const result = await client.query<MyNotificationDataQuery>({ query: MyNotificationData })
+    const notifications = result?.data?.myNotificationData;
+
+    for (const notification of notifications) {
+        const { descriptionRef, resource, titleRef } = notification;
+        // Here we separate between resource availability notifications and usage analisis notifications
+        const [title, options] = titleRef === "ResourceAvailableNotification" ?
+            // ResourceAvailableNotification
+            [
+                `"${resource?.name}" ${i18n.t("From")} ${resource?.createdBy?.username} ${i18n.t("AlreadyAvailable")}`,
+                {
+                    body: `${i18n.t(descriptionRef ?? "")}`,
+                    actions: [{ action: "NAVIGATE", title: i18n.t("GoToPage") }],
+                    tag: notification.id ?? "",
+                    renotify: true,
+                    requireInteraction: true,
+                    icon: "https://feranern.sirv.com/Images/nodos.png"
+                }
+            ] :
+            // UsageAnaliticsNotification
+            [
+                `${i18n.t("UsageAnaliticsNotificationStart")} "${resource?.name}"${i18n.t("UsageAnaliticsNotificationEnd")}`,
+                {
+                    body: `${i18n.t("UsageAnaliticsDescriptionNotificationStart")} "${resource?.name}" ${i18n.t("UsageAnaliticsDescriptionNotificationEnd")}`,
+                    actions: [{ action: "NAVIGATE", title: i18n.t("GoToPage") }],
+                    tag: notification.id ?? "",
+                    renotify: true,
+                    requireInteraction: true,
+                    icon: "https://feranern.sirv.com/Images/nodos.png"
+                }
+            ]
+        await self.registration.showNotification(title, options)
+    }
+}
+
 
 // Listen to `push` notification event. Define the text to be displayed
 // and show the notification.
 self.addEventListener('push', function (event) {
-    event.waitUntil(
-        getEndpoint()
-            .then(function (endpoint) {
-                // Call your GraphQL to retrieve data
-                return client.query<MyNotificationDataQuery>({ query: MyNotificationData })
-            })
-            .then(function ({ data }) {
-                // Process your data
-                return data.myNotificationData;
-            })
-            .then(function (payload) {
-                payload?.forEach(payload=>{
-                    const { descriptionRef, resource } = payload;
-                    // Use your data
-                    const title = `"${resource?.name}" ${i18n.t("From")} ${resource?.createdBy?.username} ${i18n.t("AlreadyAvailable")}`;
-                    const options = {
-                        body: `${i18n.t(descriptionRef ?? "")}`,
-                        actions: [{ action: "NAVIGATE", title: i18n.t("GoToPage") }],
-                        tag: payload.id ?? "",
-                        // renotify: true,
-                        requireInteraction: true,
-                        icon: "https://feranern.sirv.com/Images/nodos.png"
-                    }
-                    self.registration.showNotification(title, options)
-                });
-
-
-            })
-    );
+    event.waitUntil(getMyNotifications());
 });
 
 self.addEventListener('notificationclick', function (event) {

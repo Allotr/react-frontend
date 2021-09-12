@@ -5,16 +5,25 @@ import { MyNotificationData, MyNotificationDataQuery, MyNotificationDataSub, MyN
 import { useQuery } from "@apollo/client";
 
 function NotificationDialogParent() {
+    const resourceAvailableNotification = "ResourceAvailableNotification";
     const [myNotifications, setMyNotifications] = useState<ResourceNotification[]>([]);
     const { data, error, loading } = useQuery<MyNotificationDataQuery>(MyNotificationData);
     SubscriptionCaller.getInstance().doSubscribe<{ data: MyNotificationDataSubSubscription }>(MyNotificationDataSub, newValue => {
+        const filteredNotifications = newValue?.data?.myNotificationDataSub.filter(({ titleRef }) => titleRef === resourceAvailableNotification)
+        if (filteredNotifications.length === 0)
+            return
         setMyNotifications([]);
-        setMyNotifications(newValue?.data?.myNotificationDataSub);
+        setMyNotifications(filteredNotifications);
     });
 
     useEffect(() => {
         if (loading || error) return;
-        setMyNotifications(data?.myNotificationData ?? []);
+
+        const filteredNotifications = data?.myNotificationData?.filter(({ titleRef }) => titleRef === resourceAvailableNotification) ?? []
+        if (filteredNotifications.length === 0)
+            return
+
+        setMyNotifications(filteredNotifications ?? []);
     }, [data, loading, error])
 
     return (

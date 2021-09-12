@@ -62,6 +62,10 @@
         "AreYouSureDeleteResourceStart": "¿Seguro que deseas borrar \"",
         "AreYouSureDeleteResourceEnd": "\"?",
         "DeleteResourceWarining": "Si borras este recurso, todos los usuarios con los que fue compartido no podrán usarlo más",
-        "DeleteResource": "Borrar Recurso"
+        "DeleteResource": "Borrar Recurso",
+        "UsageAnaliticsNotificationStart":"¡Que no se te olvide reservar",
+        "UsageAnaliticsNotificationEnd":"!",
+        "UsageAnaliticsDescriptionNotificationStart": "Hoy no has solicitado",
+        "UsageAnaliticsDescriptionNotificationEnd": "a tu hora de siempre. Entra en Allotr y resérvalo"
     }
 }
