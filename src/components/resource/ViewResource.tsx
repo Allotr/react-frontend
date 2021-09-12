@@ -28,14 +28,18 @@ function ViewResource() {
     const { id } = useParams<{ id: string }>();
 
     const { data, loading, error } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 300 })
-    const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource)
-    const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource)
-    
+    const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource);
+    const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource);
+
     const [disabled, setDisabled] = useState(false);
     const [ticketListToShow, setTicketListToShow] = useState<TicketView[]>([]);
     const [myTicket, setMyTicket] = useState<TicketView | undefined>();
     const [viewResource, setViewResource] = useState<ResourceView>();
 
+    // Scroll to top when first loading the screen
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     const statusIndicatorMap: Record<TicketStatusCode, ReactElement | null> = {
         ACTIVE: <ClosedLock fill={COLORS.yellow.DEFAULT} height="25px" width="25px"></ClosedLock>,
@@ -48,7 +52,7 @@ function ViewResource() {
     }
 
     useEffect(() => {
-        if (error || (!loading && data?.viewResource == null)){
+        if (error || (!loading && data?.viewResource == null)) {
             history.push("/");
             return;
         }

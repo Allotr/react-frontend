@@ -39,8 +39,9 @@ function DeleteAccount() {
     }
 
 
+    // Scroll to top when first loading the screen
     useEffect(() => {
-        // Add your init code
+        window.scrollTo(0, 0)
     }, [])
 
 

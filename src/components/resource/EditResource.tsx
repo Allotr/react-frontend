@@ -47,6 +47,11 @@ function EditResource() {
         setSelectedUserList(userList);
     };
 
+    // Scroll to top when first loading the screen
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     // Navigate to home once the resource is created
     useEffect(() => {
         if (
@@ -79,7 +84,7 @@ function EditResource() {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
-        if (selectedUserList.filter(({id})=>selectedRoleMap[id ?? ""] === LocalRole.ResourceAdmin).length === 0) {
+        if (selectedUserList.filter(({ id }) => selectedRoleMap[id ?? ""] === LocalRole.ResourceAdmin).length === 0) {
             return;
         }
         setDisabled(true);
@@ -226,7 +231,7 @@ function EditResource() {
                             </div>
                         ))}
                     </div>
-                    {selectedUserList.filter(({id})=>selectedRoleMap[id ?? ""] === LocalRole.ResourceAdmin).length === 0 && (
+                    {selectedUserList.filter(({ id }) => selectedRoleMap[id ?? ""] === LocalRole.ResourceAdmin).length === 0 && (
                         <span className="text-yellow text-left mb-5 mr-3 mt-1 ml-5 m-auto block">
                             {t("AddAnAdminError")}
                         </span>

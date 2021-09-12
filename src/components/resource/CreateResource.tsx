@@ -43,6 +43,11 @@ function CreateResource() {
         setSelectedUserList(userList);
     };
 
+
+    // Scroll to top when first loading the screen
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     // Navigate to home once the resource is created
     useEffect(() => {
         if (
