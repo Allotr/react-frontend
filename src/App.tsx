@@ -15,6 +15,9 @@ import { CURRENT_USER_DATA } from './consts/global_session_keys';
 import { setSessionValue } from './utils/storage-utils';
 import CreateResource from './components/resource/CreateResource';
 import ViewResource from './components/resource/ViewResource';
+import EditResource from './components/resource/EditResource';
+import Settings from './components/settings/Settings';
+import DeleteAccount from './components/settings/DeleteAccount';
 
 function App() {
   const { data, error, loading } = useQuery<CurrentUserQuery>(CurrentUser);
@@ -28,6 +31,9 @@ function App() {
         {!loading ? <GuardedRoute path='/' auth={data?.currentUser?._id != null} exact component={Home}/> : null}
         {!loading ? <GuardedRoute path='/createResource' auth={data?.currentUser?._id != null} exact component={CreateResource} /> : null}
         {!loading ? <GuardedRoute path='/viewResource/:id' auth={data?.currentUser?._id != null} exact component={ViewResource} /> : null}
+        {!loading ? <GuardedRoute path='/editResource/:id' auth={data?.currentUser?._id != null} exact component={EditResource} /> : null}
+        {!loading ? <GuardedRoute path='/settings' auth={data?.currentUser?._id != null} exact component={Settings} /> : null}
+        {!loading ? <GuardedRoute path='/deleteAccount' auth={data?.currentUser?._id != null} exact component={DeleteAccount} /> : null}
         <Route path="*" component={LoadingScreen} />
       </Switch>
     </Router>

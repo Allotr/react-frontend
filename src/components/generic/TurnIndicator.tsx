@@ -9,7 +9,7 @@ function TurnIndicator({ queuePosition }: { queuePosition: number }) {
     }, [])
 
     return (
-        <div className="w-28 h-9 bg-transparent  flex-cols">
+        <div className="w-28 h-9 bg-transparent  flex-cols mb-7">
             <p className="text-blue-light text-l text-left ml-2">{t("YourTurnIndicator")}</p>
             <div className="mt-1 mr-1 flex flex-between">
                 <Clock height="20px" width="20px" fill="#5ABAFF" className="ml-2 mt-0.5"></Clock>

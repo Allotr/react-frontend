@@ -1,12 +1,11 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import AllotrLogo from "../../assets/AllotrLogo";
 import DiscardButton from "../generic/DiscardButton";
 import FullSizeButton from "../generic/FullSizeButton";
-import LongActionButton from "../generic/LongActionButton";
 
-function DeleteAccount() {
+function Settings() {
     const { t } = useTranslation();
     const history = useHistory();
 
@@ -20,13 +19,16 @@ function DeleteAccount() {
         <div className="bg-blue-dark min-h-screen min-w-screen flex-cols items-center">
             {/* Top bar with title */}
             <div className="flex fixed bg-purple w-screen h-12 justify-between z-10">
-                <p className="text-yellow text-2xl m-auto">{t("DeleteAccount")}</p>
+                <p className="text-yellow text-2xl m-auto">{t("Settings")}</p>
                 <div className="absolute top-1 right-0 h-16 w-16">
                     <AllotrLogo width="40" height="40" className="flex"></AllotrLogo>
                 </div>
             </div>
 
             <div className="form md:pt-20 ml-5 md:ml-20 pt-16 break-words">
+                <p className="text-yellow text-xl m-auto">{t("YourAccount")}</p>
+                {/* Bottom spacing */}
+                <div className="mb-4"></div>
                 <FullSizeButton action={() => {
                     history.push("/deleteAccount")
                 }} label="DeleteAccountButton" ></FullSizeButton>
@@ -47,4 +49,4 @@ function DeleteAccount() {
     );
 }
 
-export default DeleteAccount;
+export default Settings;
