@@ -17,7 +17,7 @@ specifiers:
   '@types/react-router-dom': ^5.1.8
   '@types/tailwindcss': ^2.2.1
   '@types/web-push': ^3.3.2
-  allotr-graphql-schema-types: 0.0.12
+  allotr-graphql-schema-types: 0.0.13
   autoprefixer: '9'
   file-loader: ^6.2.0
   graphql: ^15.5.0
@@ -70,7 +70,7 @@ dependencies:
   '@types/react-router-dom': 5.1.8
   '@types/tailwindcss': 2.2.1
   '@types/web-push': 3.3.2
-  allotr-graphql-schema-types: 0.0.12
+  allotr-graphql-schema-types: 0.0.13
   file-loader: 6.2.0
   graphql: 15.5.1
   graphql-ws: 4.9.0_graphql@15.5.1
@@ -110,8 +110,8 @@ devDependencies:
 
 packages:
 
-  /@apollo/client/3.4.10_graphql@15.5.1+react@17.0.2:
-    resolution: {integrity: sha512-b+8TT3jBM2BtEJi+V2FuLpvoYDZCY3baNYrgAgEyw4fjnuBCSRPY7qVjqriZAwMaGiTLtyVifGhmdeICQs4Eow==}
+  /@apollo/client/3.4.11_graphql@15.5.1+react@17.0.2:
+    resolution: {integrity: sha512-+A0z/Vy7sDg1uyijv3t9w1U0ybxn0bSpMUZHpsb2cLg/zM8fEHQ217226buzJ+cPUA1GVfJ8n6JsiN26RchvNA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0
       react: ^16.8.0 || ^17.0.0
@@ -169,7 +169,7 @@ packages:
   /@apollo/react-hooks/4.0.0_graphql@15.5.1+react@17.0.2:
     resolution: {integrity: sha512-fCu0cbne3gbUl0QbA8X4L33iuuFVQbC5Jo2MIKRK8CyawR6PoxDpFdFA1kc6033ODZuZZ9Eo4RdeJFlFIIYcLA==}
     dependencies:
-      '@apollo/client': 3.4.10_graphql@15.5.1+react@17.0.2
+      '@apollo/client': 3.4.11_graphql@15.5.1+react@17.0.2
     transitivePeerDependencies:
       - graphql
       - react
@@ -3075,8 +3075,8 @@ packages:
       uri-js: 4.4.1
     dev: false
 
-  /allotr-graphql-schema-types/0.0.12:
-    resolution: {integrity: sha512-DPvMLY8xNLZPx3+tIao1Nku8eAo6BWM16WG0wiVqbbhK+ZzpuSGt+Eeud5oZme1jxvql2zmCkiwHI13ol3UuYg==}
+  /allotr-graphql-schema-types/0.0.13:
+    resolution: {integrity: sha512-+kavbNI4yaiew3KFcoVSRJrSKZYXaXgan48pC2MpkJ+Ua4EYYRSrRZqQExZ6JwgohKVJ9R7ScRi3g2eIlOv9pw==}
     dependencies:
       '@graphql-codegen/typescript-mongodb': 2.1.2_339c8e4631a39e72b37b7f68d769d0af
       '@types/react': 17.0.19
