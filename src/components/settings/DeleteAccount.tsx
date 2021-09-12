@@ -25,7 +25,7 @@ function DeleteAccount() {
     }
 
     const handleConfirmClick = async () => {
-            setDisabled(true);
+        setDisabled(true);
         const { data, errors } = await callDeleteUser({ variables: { deleteAllFlag: isFlagChecked, userId: _id ?? "" } })
         setDisabled(false);
         if (errors || data?.deleteUser?.status === OperationResult.Error) {
@@ -34,7 +34,7 @@ function DeleteAccount() {
 
         deleteSessionValue(CURRENT_USER_DATA);
         serviceWorkerRegistration.unregister()
-        window.location.replace(EnvLoader.getInstance().loadedVariables.REACT_APP_GOOGLE_LOGOUT_ENDPOINT);
+        history.push("/login")
 
     }
 
