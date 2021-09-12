@@ -9,7 +9,6 @@ import { DeleteUser, DeleteUserMutation, DeleteUserMutationVariables, OperationR
 import { CURRENT_USER_DATA } from "../../consts/global_session_keys";
 import * as serviceWorkerRegistration from '../../serviceWorkerRegistration';
 import { deleteSessionValue, getSessionValue } from "../../utils/storage-utils";
-import { EnvLoader } from "../../utils/env-loader";
 
 function DeleteAccount() {
     const { t } = useTranslation();
