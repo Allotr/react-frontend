@@ -14,7 +14,8 @@ import {
     OperationResult,
     ViewResourceQuery,
     ViewResource,
-    ResourceView
+    ResourceView,
+    TicketStatusCode
 } from "allotr-graphql-schema-types";
 import SearchUsersTable from "./SearchUsers/SearchUsersTable";
 import { useMutation, useQuery } from "@apollo/client";
@@ -37,7 +38,7 @@ function EditResource() {
     const { data: queryData, loading: queryLoading, error: queryError } = useQuery<ViewResourceQuery>(ViewResource, { variables: { resourceId: id } })
     const [viewResource, setViewResource] = useState<ResourceView>(!queryLoading ? queryData?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView);
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([]);
-    const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, LocalRole>>({});
+    const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, { role: LocalRole, isActive: boolean }>>({});
     const [disabled, setDisabled] = useState(false);
 
     const [createResourceCall, { data, loading, error }] =
@@ -76,7 +77,10 @@ function EditResource() {
             surname: user.surname,
             username: user.username
         }));
-        const selectedRoleMap = Object.fromEntries(tickets.map(({ user }) => [user.userId ?? "", user.role]));
+        const selectedRoleMap = Object
+            .fromEntries(
+                tickets
+                    .map(({ user, lastStatus }) => [user.userId ?? "", { role: user.role, isActive: lastStatus.statusCode === TicketStatusCode.Active }]));
         setSelectedUserList(selectedUserList);
         setViewResource(viewResource);
         setSelectedRoleMap(selectedRoleMap);
@@ -84,7 +88,7 @@ function EditResource() {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
-        if (selectedUserList.filter(({ id }) => selectedRoleMap[id ?? ""] === LocalRole.ResourceAdmin).length === 0) {
+        if (selectedUserList.filter(({ id }) => selectedRoleMap[id ?? ""]?.role === LocalRole.ResourceAdmin).length === 0) {
             return;
         }
         setDisabled(true);
@@ -95,7 +99,7 @@ function EditResource() {
             description,
             userList: selectedUserList.map(({ id }) => ({
                 id: id ?? "",
-                role: selectedRoleMap[id ?? ""] ?? LocalRole.ResourceUser,
+                role: selectedRoleMap[id ?? ""]?.role ?? LocalRole.ResourceUser,
             })),
         };
         await createResourceCall({
@@ -108,14 +112,14 @@ function EditResource() {
     const onDeletedUser = (user: PublicUser) => {
         const newSelectedUserList = selectedUserList.filter(({ id }) => id !== user.id);
         // Reset to default role if it were to be re-added later
-        const newRoleMap = { ...selectedRoleMap, [user.id ?? ""]: LocalRole.ResourceUser };
+        const newRoleMap = { ...selectedRoleMap, [user.id ?? ""]: { role: LocalRole.ResourceUser, isActive: false } };
         setSelectedRoleMap(newRoleMap)
         setSelectedUserList(newSelectedUserList);
     }
 
     const onRoleSwitched = (user: PublicUser) => {
-        const newRole = selectedRoleMap?.[user.id ?? ""] === LocalRole.ResourceAdmin ? LocalRole.ResourceUser : LocalRole.ResourceAdmin
-        const newRoleMap = { ...selectedRoleMap, [user.id ?? ""]: newRole };
+        const newRole = selectedRoleMap?.[user.id ?? ""]?.role === LocalRole.ResourceAdmin ? LocalRole.ResourceUser : LocalRole.ResourceAdmin
+        const newRoleMap = { ...selectedRoleMap, [user.id ?? ""]: { role: newRole, isActive: selectedRoleMap[user.id ?? ""]?.isActive || false } };
         setSelectedRoleMap(newRoleMap)
     }
 
@@ -214,7 +218,7 @@ function EditResource() {
                                         <MiniActionButton
                                             action={() => onRoleSwitched(user)}
                                             logo={Key}
-                                            fill={selectedRoleMap[user.id ?? ""] === LocalRole.ResourceAdmin ? COLORS.yellow.DEFAULT : COLORS.blue.light}
+                                            fill={selectedRoleMap[user.id ?? ""]?.role === LocalRole.ResourceAdmin ? COLORS.yellow.DEFAULT : COLORS.blue.light}
                                             type="button" />
                                     </div>
                                     {/* Separation line */}
@@ -224,6 +228,7 @@ function EditResource() {
                                         <MiniActionButton
                                             action={() => onDeletedUser(user)}
                                             logo={TrashCan}
+                                            disabled={selectedRoleMap[user.id ?? ""]?.isActive}
                                             fill={COLORS.blue.light}
                                             type="button" />
                                     </div>
@@ -231,7 +236,7 @@ function EditResource() {
                             </div>
                         ))}
                     </div>
-                    {selectedUserList.filter(({ id }) => selectedRoleMap[id ?? ""] === LocalRole.ResourceAdmin).length === 0 && (
+                    {selectedUserList.filter(({ id }) => selectedRoleMap[id ?? ""]?.role === LocalRole.ResourceAdmin).length === 0 && (
                         <span className="text-yellow text-left mb-5 mr-3 mt-1 ml-5 m-auto block">
                             {t("AddAnAdminError")}
                         </span>

@@ -26,11 +26,11 @@ function MiniActionButton({
   return (
     <button
       type={type}
-      className="h-14 w-14 bg-purple border-2 border-transparent hover:border-blue-light flex justify-between"
+      className={`h-14 w-14  flex justify-between ${(!disabled ? "hover:border-blue-light bg-purple border-2 border-transparent" : "cursor-default")}`}
       onClick={action}
       disabled={disabled}
     >
-      {SVGLogo != null && (fill != null || stroke != null) ? (
+      {!disabled && SVGLogo != null && (fill != null || stroke != null) ? (
         <div className="m-auto inline-block  align-middle">
           <SVGLogo
             height="25px"
