@@ -35,7 +35,7 @@ function EditResource() {
     const { t } = useTranslation();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
-    const { data: queryData, loading: queryLoading, error: queryError } = useQuery<ViewResourceQuery>(ViewResource, { variables: { resourceId: id } })
+    const { data: queryData, loading: queryLoading, error: queryError } = useQuery<ViewResourceQuery>(ViewResource, { variables: { resourceId: id }, pollInterval: 300 })
     const [viewResource, setViewResource] = useState<ResourceView>(!queryLoading ? queryData?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView);
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([]);
     const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, { role: LocalRole, isActive: boolean }>>({});
