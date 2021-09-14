@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AllotrLogo from "../../assets/AllotrLogo";
 import ActionButton from "../generic/ActionButton";
@@ -23,6 +23,7 @@ import MiniActionButton from "../generic/MiniActionButton";
 import Key from "../../assets/Key";
 import { COLORS } from "../../consts/colors";
 import TrashCan from "../../assets/TrashCan";
+import _ from "lodash";
 
 type Inputs = {
     name: string;
@@ -35,6 +36,7 @@ function EditResource() {
     const { t } = useTranslation();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
+    const isFirst = useRef<boolean>(true);
     const { data: queryData, loading: queryLoading, error: queryError } = useQuery<ViewResourceQuery>(ViewResource, { variables: { resourceId: id }, pollInterval: 300 })
     const [viewResource, setViewResource] = useState<ResourceView>(!queryLoading ? queryData?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView);
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([]);
@@ -70,21 +72,30 @@ function EditResource() {
             return;
         }
         const viewResource = !queryLoading ? queryData?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView
-        const tickets = viewResource.tickets ?? []
-        const selectedUserList = tickets.map(({ user }) => ({
+        const newSelectedUserList = viewResource.tickets.map(({ user }) => ({
             id: user.userId,
             name: user.name,
             surname: user.surname,
             username: user.username
         }));
-        const selectedRoleMap = Object
+        const newSelectedRoleMap = Object
             .fromEntries(
-                tickets
-                    .map(({ user, lastStatus }) => [user.userId ?? "", { role: user.role, isActive: lastStatus.statusCode === TicketStatusCode.Active }]));
-        setSelectedUserList(selectedUserList);
+                viewResource.tickets
+                    .map(({ user, lastStatus }) =>
+                        [
+                            user.userId ?? "",
+                            {
+                                role: isFirst.current ? user.role : selectedRoleMap[user.userId ?? ""].role,
+                                isActive: lastStatus.statusCode === TicketStatusCode.Active
+                            }
+                        ]
+                    )
+            );
+        setSelectedUserList(isFirst.current ? newSelectedUserList : selectedUserList);
         setViewResource(viewResource);
-        setSelectedRoleMap(selectedRoleMap);
-    }, [queryData, queryLoading, queryError])
+        setSelectedRoleMap(isFirst.current ? newSelectedRoleMap : _.merge(selectedRoleMap, newSelectedRoleMap));
+        isFirst.current = false;
+    }, [queryData, queryLoading, queryError, selectedUserList, selectedRoleMap])
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
