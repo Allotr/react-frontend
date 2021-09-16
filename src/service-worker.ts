@@ -10,6 +10,8 @@
 
 import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { NetworkOnly } from 'workbox-strategies';
 import { EnvLoader } from './utils/env-loader';
 import {
     ApolloClient,
@@ -61,6 +63,11 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 // precacheAndRoute(self.__WB_MANIFEST);
 const ignored = self.__WB_MANIFEST;
+
+registerRoute(
+    ({ url }) => true,
+    new NetworkOnly()
+);
 
 
 // This allows the web app to trigger skipWaiting via
