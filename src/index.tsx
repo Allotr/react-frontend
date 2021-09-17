@@ -10,7 +10,7 @@ import {
   ApolloProvider
 } from "@apollo/client";
 import { createHttpLink } from '@apollo/client';
-import { EnvLoader } from './utils/env-loader';
+import { getLoadedEnvVariables } from './utils/env-loader';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import NotificationDialogParent from './components/notifications/NotificationDialogParent';
 
@@ -18,7 +18,7 @@ initializeBundles();
 
 
 const link = createHttpLink({
-  uri: EnvLoader.getInstance().loadedVariables.REACT_APP_HTTPS_API_ENDPOINT,
+  uri: getLoadedEnvVariables().REACT_APP_HTTPS_API_ENDPOINT,
   credentials: "include"
 })
 

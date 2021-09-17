@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import GoogleButton from 'react-google-button'
 import AllotrLogo from "../../assets/AllotrLogo";
-import { EnvLoader } from "../../utils/env-loader";
+import { getLoadedEnvVariables } from "../../utils/env-loader";
 
 function Login() {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ function Login() {
           className="flex items-center"
           label={t('LoginWithGoogle')}
           onClick={() => {
-            window.location.replace(EnvLoader.getInstance().loadedVariables.REACT_APP_GOOGLE_LOGIN_ENDPOINT);
+            window.location.replace(getLoadedEnvVariables().REACT_APP_GOOGLE_LOGIN_ENDPOINT);
           }}
         />
       </div>

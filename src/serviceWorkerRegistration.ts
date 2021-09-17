@@ -1,6 +1,6 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
-import { EnvLoader } from './utils/env-loader';
+import { getLoadedEnvVariables } from './utils/env-loader';
 
 type Config = {
     onSuccess?: (registration: ServiceWorkerRegistration) => void;
@@ -76,7 +76,7 @@ function registerValidSW(swUrl: string, config?: Config) {
 // the subscription to the server.
 // export function register() {
 
-const { REACT_APP_WEBPUSH_ENDPOINT } = EnvLoader.getInstance().loadedVariables;
+const { REACT_APP_WEBPUSH_ENDPOINT } = getLoadedEnvVariables();
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready

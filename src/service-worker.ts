@@ -12,7 +12,7 @@ import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
-import { EnvLoader } from './utils/env-loader';
+import { getLoadedEnvVariables } from './utils/env-loader';
 import {
     ApolloClient,
     InMemoryCache,
@@ -25,13 +25,13 @@ import i18n from './i18nGeneric';
 
 declare const self: ServiceWorkerGlobalScope;
 
-const { REACT_APP_WEBPUSH_ENDPOINT, REACT_APP_REDIRECT_URL } = EnvLoader.getInstance().loadedVariables;
+const { REACT_APP_WEBPUSH_ENDPOINT, REACT_APP_REDIRECT_URL } = getLoadedEnvVariables();
 
 
 // Add Apollo Client
 
 const link = createHttpLink({
-    uri: EnvLoader.getInstance().loadedVariables.REACT_APP_HTTPS_API_ENDPOINT,
+    uri: getLoadedEnvVariables().REACT_APP_HTTPS_API_ENDPOINT,
     credentials: "include"
 })
 

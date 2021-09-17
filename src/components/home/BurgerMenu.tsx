@@ -1,6 +1,6 @@
 import { slide as Menu } from "react-burger-menu";
 import { CURRENT_USER_DATA } from "../../consts/global_session_keys";
-import { EnvLoader } from "../../utils/env-loader";
+import { getLoadedEnvVariables } from "../../utils/env-loader";
 import { deleteSessionValue, getSessionValue } from "../../utils/storage-utils";
 import LongActionButton from "../generic/LongActionButton";
 import { UserDbObject } from "allotr-graphql-schema-types"
@@ -26,7 +26,7 @@ function BurgerMenu() {
                 <LongActionButton action={() => {
                     deleteSessionValue(CURRENT_USER_DATA);
                     serviceWorkerRegistration.unregister()
-                    window.location.replace(EnvLoader.getInstance().loadedVariables.REACT_APP_GOOGLE_LOGOUT_ENDPOINT);
+                    window.location.replace(getLoadedEnvVariables().REACT_APP_GOOGLE_LOGOUT_ENDPOINT);
                 }} label="Logout" ></LongActionButton>
             </div>
         </Menu>
