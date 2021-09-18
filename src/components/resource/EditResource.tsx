@@ -23,7 +23,6 @@ import MiniActionButton from "../generic/MiniActionButton";
 import Key from "../../assets/Key";
 import { COLORS } from "../../consts/colors";
 import TrashCan from "../../assets/TrashCan";
-import _ from "lodash";
 
 type Inputs = {
     name: string;
@@ -37,7 +36,7 @@ function EditResource() {
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
     const isFirst = useRef<boolean>(true);
-    const { data: queryData, loading: queryLoading, error: queryError } = useQuery<ViewResourceQuery>(ViewResource, { variables: { resourceId: id }, pollInterval: 300 })
+    const { data: queryData, loading: queryLoading, error: queryError } = useQuery<ViewResourceQuery>(ViewResource, { variables: { resourceId: id } })
     const [viewResource, setViewResource] = useState<ResourceView>(!queryLoading ? queryData?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView);
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([]);
     const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, { role: LocalRole, isActive: boolean }>>({});
@@ -93,7 +92,7 @@ function EditResource() {
             );
         setSelectedUserList(isFirst.current ? newSelectedUserList : selectedUserList);
         setViewResource(viewResource);
-        setSelectedRoleMap(isFirst.current ? newSelectedRoleMap : _.merge(selectedRoleMap, newSelectedRoleMap));
+        setSelectedRoleMap(isFirst.current ? newSelectedRoleMap : selectedRoleMap);
         isFirst.current = false;
     }, [queryData, queryLoading, queryError, selectedUserList, selectedRoleMap])
 
@@ -239,7 +238,6 @@ function EditResource() {
                                         <MiniActionButton
                                             action={() => onDeletedUser(user)}
                                             logo={TrashCan}
-                                            disabled={selectedRoleMap[user.id ?? ""]?.isActive}
                                             fill={COLORS.blue.light}
                                             type="button" />
                                     </div>

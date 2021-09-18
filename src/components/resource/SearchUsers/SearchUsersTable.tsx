@@ -24,6 +24,10 @@ function SearchUsersTable({
     const [hasClickedSearch, setHasClickedSearch] = useState<boolean>(false);
     const [selectedUserListState, setSelectedUserListState] = useState<PublicUser[]>([]);
 
+    const checkKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+        if (e.code === 'Enter') onSearchClick();
+    };
+
     // Event listeners
     const onSearchClick = () => {
         setTextToQuery(inpuText);
@@ -64,6 +68,7 @@ function SearchUsersTable({
                             type="text"
                             className="h-9 w-full bg-purple-light text-yellow cursor-text placeholder-yellow placeholder-opacity-60 pl-3"
                             value={inpuText}
+                            onKeyDown={(e) => checkKeyDown(e)}
                             onChange={(event) => setInputText(event?.target.value)}
                             placeholder={t("SearchPlaceholder")}
                         />
