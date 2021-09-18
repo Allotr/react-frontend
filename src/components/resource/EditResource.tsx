@@ -42,6 +42,10 @@ function EditResource() {
     const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, { role: LocalRole, isActive: boolean }>>({});
     const [disabled, setDisabled] = useState(false);
 
+    const checkKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+        if (e.code === 'Enter') e.preventDefault();
+    };
+
     const [createResourceCall, { data, loading, error }] =
         useMutation<UpdateResourceMutation>(UpdateResource);
 
@@ -142,7 +146,7 @@ function EditResource() {
                     <AllotrLogo width="40" height="40" className="flex"></AllotrLogo>
                 </div>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} onKeyDown={(e) => checkKeyDown(e)}>
                 <div className="form md:pt-20 md:pl-8 pt-16 pl-2 break-words">
                     {/* Name */}
                     <label
