@@ -25,7 +25,8 @@ function SearchUsersTable({
     const [selectedUserListState, setSelectedUserListState] = useState<PublicUser[]>([]);
 
     const checkKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-        if (e.code === 'Enter') onSearchClick();
+        if (e.key === 'Enter') onSearchClick();
+        e.preventDefault();
     };
 
     // Event listeners
