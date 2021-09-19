@@ -36,7 +36,7 @@
         "ItsYourTurnTitle": "¡Ha llegado tu turno!",
         "ItsYourTurnSubtitle": "está disponible y es tu turno de usarlo",
         "DoYouWantToUseResourceQuestion": "¿Quieres usar el recurso ahora mismo?",
-        "CancelResourceAquireWarning": "Si cancelas, tendrás que volver a la lista de espera cuando quieras voler a usarlo.",
+        "CancelResourceAquireWarning": "Si cancelas, tendrás que volver a la lista de espera cuando quieras volver a usarlo.",
         "Yes": "Sí",
         "No": "No",
         "NewDataRefresh": "¡Hay nuevos cambios! Refresca la página",
