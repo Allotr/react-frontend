@@ -125,7 +125,7 @@ function ResourceCard({
                 <p className="text-blue text-xs text-left">{`${t("CreatedBy")}${currentCard.createdBy?.username ?? ""}`}</p>
                 <p className="text-blue-light text-sm text-left mt-3">{currentCard.description}</p>
                 {/* TODO: Change forced locale once used internationally */}
-                <p className="text-blue-light text-xs text-left mt-3 break-words">{`${t("LastUpdate")}:\r\n${new Date(currentCard.lastModificationDate).toLocaleDateString("es-ES")}\t${new Date(currentCard.lastModificationDate).toLocaleTimeString("es-ES")}`}</p>
+                <p className="text-blue-light text-xs text-left mt-3 break-words">{`${t("LastUpdate")}\r\n${new Date(currentCard.lastModificationDate).toLocaleDateString("es-ES")}\t${new Date(currentCard.lastModificationDate).toLocaleTimeString("es-ES")}`}</p>
             </div>
 
             <div className="mt-4 ml-2 mr-3  self-start">{componentMap[currentCard.statusCode]}</div>
