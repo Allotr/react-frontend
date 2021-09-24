@@ -162,7 +162,7 @@ function ViewResource() {
                     htmlFor="userList"
                     className="text-blue-light text-3xl text-left ml-3 mt-2 m-auto block"
                 >{`${t("UsersViewResource")}`}</label>
-                <div className="mt-3 ml-2 pb-5">
+                <div className="mt-3 ml-2 pb-5 h-40 overflow-y-scroll">
                     {ticketListToShow.length > 0 ? ticketListToShow.map(ticket => (
                         <div className="mb-2 flex h-14 justify-between w-11/12" key={ticket.user.userId}>
                             {/* User data */}
