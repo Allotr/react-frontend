@@ -135,7 +135,7 @@ function ViewResource() {
 
                 </div>
                 <p className="block mt-3   text-yellow ml-3 pl-3 w-4/5">
-                    {viewResource?.name ?? t("LoadingText")}
+                    {viewResource?.name ?? t("LoadingNumber")}
                 </p>
                 {/* Description */}
                 <label
