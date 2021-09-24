@@ -26,7 +26,7 @@ function SearchUsersTableRow({
 
   return (
     <div className="resourceCard bg-purple h-14 w-11/12 ml-3 mt-1 flex justify-between">
-      <p className="text-blue-light align-middle block m-auto ml-2">
+      <p className="text-yellow align-middle block m-auto ml-2">
         {userData.name} {userData.surname} - {userData.username}
       </p>
       <span className="bg-purple-dark w-1 ml-2"></span>
