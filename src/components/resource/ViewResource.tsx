@@ -202,7 +202,7 @@ function ViewResource() {
             {/* Action Buttons */}
             <div className="buttonBar  flex justify-around pb-6">
                 <div className=" flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                    <DiscardButton action={() => history.push("/")} label="Back" />
+                    <DiscardButton action={() => history.goBack()} label="Back" />
                 </div>
                 <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                     <div className="self-start">{componentMap[myTicket?.lastStatus.statusCode ?? TicketStatusCode.Revoked]}</div>
