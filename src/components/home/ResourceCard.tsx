@@ -115,7 +115,7 @@ function ResourceCard({
     }
 
     return (
-        <div className="resourceCard bg-purple-dark min-h-32 w-11/12 m-auto mt-10 flex justify-between break-all md:break-normal pb-7">
+        <div className="resourceCard bg-purple-dark min-h-32 w-11/12 m-auto mt-10 flex justify-between break-word md:break-normal pb-7">
             <div className="self-start mt-4 ml-2">
                 <ActiveUserStatus currentUsers={currentCard.activeUserCount} maxUsers={currentCard.maxActiveTickets} key={1} />
             </div>
