@@ -57,7 +57,7 @@ function DeleteResource() {
             {/* Action Buttons */}
             <div className="buttonBar  flex justify-around pb-6  ml-5 md:ml-10 ">
                 <div className="flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                    <DiscardButton action={() => history.push(`/viewResource/${id}`)} label="Cancel" />
+                    <DiscardButton action={() => history.goBack()} label="Cancel" />
                 </div>
                 <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                     <ActionButton
