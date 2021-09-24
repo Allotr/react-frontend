@@ -67,7 +67,7 @@
         "UsageAnaliticsNotificationEnd":"!",
         "UsageAnaliticsDescriptionNotificationStart": "Hoy no has solicitado",
         "UsageAnaliticsDescriptionNotificationEnd": "a tu hora de siempre. Entra en Allotr y resérvalo",
-        "LoadingText": "Cargando contenido...",
+        "LoadingText": "Cargando...",
         "LoadingNumber": "...",
         "NoDescription": "No hay descripción"
     }

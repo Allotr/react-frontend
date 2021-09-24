@@ -134,7 +134,7 @@ function ViewResource() {
                         : <div className="flex h-14" />}
 
                 </div>
-                <p className="block mt-3   text-yellow ml-3 pl-3 w-4/5">
+                <p className={`block mt-3 text-yellow ml-3 pl-3 w-4/5 ${viewResource?.name == null ? "italic" : ""}`}>
                     {viewResource?.name ?? t("LoadingText")}
                 </p>
                 {/* Description */}
@@ -145,7 +145,7 @@ function ViewResource() {
                     {t("DescriptionViewResource")}
                 </label>
                 <p
-                    className={`block mt-3 pt-1 mb-5  text-yellow ml-3  pl-3 w-4/5 ${viewResource?.description === "" ? "italic" : ""}`}>
+                    className={`block mt-3 pt-1 mb-5  text-yellow ml-3  pl-3 w-4/5 ${!viewResource?.description ? "italic" : ""}`}>
                     {viewResource?.description === "" ? t("NoDescription") : viewResource?.description ?? t("LoadingText")}</p>
 
                 {/* Max Active tickets */}
@@ -154,7 +154,7 @@ function ViewResource() {
                     className="text-blue-light text-3xl text-left ml-3 m-auto block"
                 >{`${t("MaxUsersViewResource")}`}</label>
                 <p
-                    className="block mt-3   text-yellow ml-3 h-10 pl-3 w-1/4">
+                    className={`block mt-3 text-yellow ml-3 h-10 pl-3 w-1/4 ${viewResource?.maxActiveTickets == null ? "italic" : ""}`}>
                     {viewResource?.maxActiveTickets ?? t("LoadingNumber")}
                 </p>
                 {/* View active users and queue */}
