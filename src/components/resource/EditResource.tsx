@@ -65,7 +65,7 @@ function EditResource() {
             data?.updateResource?.status === OperationResult.Ok &&
             !error
         ) {
-            history.push(`/viewResource/${id}`);
+            history.goBack();
         }
         setDisabled(false);
     }, [loading, history, data, error, id]);

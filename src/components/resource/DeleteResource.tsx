@@ -24,8 +24,9 @@ function DeleteResource() {
         if (errors) {
             return;
         }
-        history.push("/")
-
+        // Go back to main page
+        history.goBack();
+        history.goBack();
     }
 
 

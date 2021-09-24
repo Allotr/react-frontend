@@ -53,7 +53,7 @@ function ViewResource() {
 
     useEffect(() => {
         if (error || (!loading && data?.viewResource == null)) {
-            history.push("/");
+            history.goBack();
             return;
         }
         if (loading) {
