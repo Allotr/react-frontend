@@ -66,6 +66,7 @@
         "UsageAnaliticsNotificationStart":"¡Que no se te olvide reservar",
         "UsageAnaliticsNotificationEnd":"!",
         "UsageAnaliticsDescriptionNotificationStart": "Hoy no has solicitado",
-        "UsageAnaliticsDescriptionNotificationEnd": "a tu hora de siempre. Entra en Allotr y resérvalo"
+        "UsageAnaliticsDescriptionNotificationEnd": "a tu hora de siempre. Entra en Allotr y resérvalo",
+        "LoadingText": "Cargando contenido..."
     }
 }
