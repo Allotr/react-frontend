@@ -12,6 +12,7 @@ import {
     InputResource,
     CreateResourceMutation,
     OperationResult,
+    User,
 } from "allotr-graphql-schema-types";
 import SearchUsersTable from "./SearchUsers/SearchUsersTable";
 import { useMutation } from "@apollo/client";
@@ -19,6 +20,8 @@ import MiniActionButton from "../generic/MiniActionButton";
 import Key from "../../assets/Key";
 import { COLORS } from "../../consts/colors";
 import TrashCan from "../../assets/TrashCan";
+import { CURRENT_USER_DATA } from "../../consts/global_session_keys";
+import { getSessionValue } from "../../utils/storage-utils";
 
 type Inputs = {
     name: string;
@@ -31,8 +34,8 @@ function CreateResource() {
     const { t } = useTranslation();
     const history = useHistory();
 
-
-    const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([]);
+    const { _id, username, name, surname } = getSessionValue<User>(CURRENT_USER_DATA);
+    const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([{ id: _id, name, surname, username }]);
     const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, LocalRole>>({});
     const [disabled, setDisabled] = useState(false);
 
@@ -62,6 +65,9 @@ function CreateResource() {
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
+        if (selectedUserList.length === 0) {
+            return;
+        }
         setDisabled(true);
         const resource: InputResource = {
             name,
@@ -197,6 +203,11 @@ function CreateResource() {
                             </div>
                         ))}
                     </div>
+                    {selectedUserList.length === 0 && (
+                        <span className="text-yellow text-left mb-5 mr-3 mt-1 ml-5 m-auto block">
+                            {t("AddAUserError")}
+                        </span>
+                    )}
                     {/* Bottom spacing */}
                     <div className="mb-20"></div>
                 </div>
