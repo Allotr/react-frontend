@@ -145,8 +145,8 @@ function ViewResource() {
                     {t("DescriptionViewResource")}
                 </label>
                 <p
-                    className="block mt-3 pt-1 mb-5  text-yellow ml-3  pl-3 w-4/5 " >
-                    {viewResource?.description ?? t("LoadingText")}</p>
+                    className={"block mt-3 pt-1 mb-5  text-yellow ml-3  pl-3 w-4/5 " + viewResource?.description === "" ? "italic" : ""}>
+                    {viewResource?.description === "" ? t("NoDescription") : viewResource?.description ?? t("LoadingText")}</p>
 
                 {/* Max Active tickets */}
                 <label
