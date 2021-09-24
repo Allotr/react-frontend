@@ -135,7 +135,7 @@ function ViewResource() {
 
                 </div>
                 <p className="block mt-3   text-yellow ml-3 pl-3 w-4/5">
-                    {viewResource?.name ?? t("LoadingNumber")}
+                    {viewResource?.name ?? t("LoadingText")}
                 </p>
                 {/* Description */}
                 <label
@@ -155,7 +155,7 @@ function ViewResource() {
                 >{`${t("MaxUsersViewResource")}`}</label>
                 <p
                     className="block mt-3   text-yellow ml-3 h-10 pl-3 w-1/4">
-                    {viewResource?.maxActiveTickets ?? t("LoadingText")}
+                    {viewResource?.maxActiveTickets ?? t("LoadingNumber")}
                 </p>
                 {/* View active users and queue */}
                 <label
