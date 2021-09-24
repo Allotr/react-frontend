@@ -163,7 +163,8 @@ function ViewResource() {
                     className="text-blue-light text-3xl text-left ml-3 mt-2 m-auto block"
                 >{`${t("UsersViewResource")}`}</label>
                 <div className="mt-3 ml-2 pb-5 h-48 overflow-y-scroll w-11/12">
-                    {ticketListToShow.length > 0 ? ticketListToShow.map(ticket => (
+                    {viewResource == null && <p className="text-yellow block text-left pt-4 pl-3 italic">{t("LoadingText")}</p>}
+                    {viewResource != null && ticketListToShow.length > 0 ? ticketListToShow.map(ticket => (
                         <div className="mb-2 flex h-14 justify-between" key={ticket.user.userId}>
                             {/* User data */}
                             <p className="text-yellow block text-left pt-4 pl-3">{ticket.user.name} {ticket.user.surname} - {ticket.user.username}</p>
