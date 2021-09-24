@@ -131,7 +131,7 @@ function ViewResource() {
                             <div className="w-2"></div>
                             <div><MiniActionButton action={() => { history.push(`/deleteResource/${id}`) }} fill={COLORS.blue.light} logo={TrashCan}></MiniActionButton></div>
                         </div>
-                        : null}
+                        : <div className="flex" />}
 
                 </div>
                 <p className="block mt-3   text-yellow ml-3 pl-3 w-4/5">
