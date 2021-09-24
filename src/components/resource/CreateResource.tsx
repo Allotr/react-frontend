@@ -36,7 +36,7 @@ function CreateResource() {
 
     const { _id, username, name, surname } = getSessionValue<User>(CURRENT_USER_DATA);
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([{ id: _id, name, surname, username }]);
-    const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, LocalRole>>({});
+    const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, LocalRole>>({ [_id ?? ""]: LocalRole.ResourceAdmin });
     const [disabled, setDisabled] = useState(false);
 
     const [createResourceCall, { data, loading, error }] =
