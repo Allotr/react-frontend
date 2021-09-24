@@ -55,7 +55,7 @@ function CreateResource() {
             data?.createResource?.status === OperationResult.Ok &&
             !error
         ) {
-            history.push(`/viewResource/${data?.createResource?.newObjectId}`);
+            history.replace(`/viewResource/${data?.createResource?.newObjectId}`);
         }
         setDisabled(false);
     }, [loading, history, data, error]);
