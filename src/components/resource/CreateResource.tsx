@@ -62,9 +62,6 @@ function CreateResource() {
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
-        if (selectedUserList.length === 0) {
-            return;
-        }
         setDisabled(true);
         const resource: InputResource = {
             name,
@@ -200,11 +197,6 @@ function CreateResource() {
                             </div>
                         ))}
                     </div>
-                    {selectedUserList.length === 0 && (
-                        <span className="text-yellow text-left mb-5 mr-3 mt-1 ml-5 m-auto block">
-                            {t("AddAUserError")}
-                        </span>
-                    )}
                     {/* Bottom spacing */}
                     <div className="mb-20"></div>
                 </div>
