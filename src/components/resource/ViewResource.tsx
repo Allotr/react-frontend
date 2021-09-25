@@ -197,7 +197,7 @@ function ViewResource() {
                 </div>
 
                 {/* Bottom spacing */}
-                <div className="mb-20"></div>
+                <div className="mb-10"></div>
             </div>
 
             {/* Action Buttons */}
