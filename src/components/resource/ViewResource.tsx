@@ -127,9 +127,9 @@ function ViewResource() {
                     >{`${t("NameViewResource")}`}</label>
                     {myTicket?.user.role === LocalRole.ResourceAdmin ?
                         <div className="flex">
-                            <div><MiniActionButton action={() => { history.push(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen}></MiniActionButton></div>
+                            <div><MiniActionButton action={() => { history.push(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen} ariaLabel="EditResource"></MiniActionButton></div>
                             <div className="w-2"></div>
-                            <div><MiniActionButton action={() => { history.push(`/deleteResource/${id}`) }} fill={COLORS.blue.light} logo={TrashCan}></MiniActionButton></div>
+                            <div><MiniActionButton action={() => { history.push(`/deleteResource/${id}`) }} fill={COLORS.blue.light} logo={TrashCan} ariaLabel="DeleteResource"></MiniActionButton></div>
                         </div>
                         : <div className="flex h-14" />}
 
