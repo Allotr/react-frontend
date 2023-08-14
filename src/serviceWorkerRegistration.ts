@@ -10,7 +10,7 @@ type Config = {
 export function register(config?: Config) {
     if ('serviceWorker' in navigator) {
         // The URL constructor is available in all browsers that support SW.
-        const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+        const publicUrl = new URL('./', window.location.href);
         if (publicUrl.origin !== window.location.origin) {
             // Our service worker won't work if PUBLIC_URL is on a different origin
             // from what our page is served on. This might happen if a CDN is used to
@@ -19,7 +19,7 @@ export function register(config?: Config) {
         }
 
         window.addEventListener('load', () => {
-            const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+            const swUrl = `./service-worker.js`;
             registerValidSW(swUrl, config);
         });
     }
@@ -27,7 +27,7 @@ export function register(config?: Config) {
 
 function registerValidSW(swUrl: string, config?: Config) {
     navigator.serviceWorker
-        .register(swUrl)
+        .register(swUrl, { type: 'module' })
         .then((registration) => {
             registration.onupdatefound = () => {
                 const installingWorker = registration.installing;
@@ -76,14 +76,14 @@ function registerValidSW(swUrl: string, config?: Config) {
 // the subscription to the server.
 // export function register() {
 
-const { REACT_APP_WEBPUSH_ENDPOINT } = getLoadedEnvVariables();
+const { VITE_WEBPUSH_ENDPOINT } = getLoadedEnvVariables();
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready
         .then(async function (registration) {
 
             // Get the server's public key
-            const response = await fetch(`${REACT_APP_WEBPUSH_ENDPOINT}/webpush/vapidPublicKey`, { credentials: "include" });
+            const response = await fetch(`${VITE_WEBPUSH_ENDPOINT}/webpush/vapidPublicKey`, { credentials: "include" });
             const vapidPublicKey = await response.text();
             // Chrome doesn't accept the base64-encoded (string) vapidPublicKey yet
             // urlBase64ToUint8Array() is defined in /tools.js
@@ -94,7 +94,7 @@ if ('serviceWorker' in navigator) {
                 applicationServerKey: convertedVapidKey
             });
         }).then(function (subscription) {
-            return fetch(`${REACT_APP_WEBPUSH_ENDPOINT}/webpush/register`, {
+            return fetch(`${VITE_WEBPUSH_ENDPOINT}/webpush/register`, {
                 credentials: "include",
                 method: 'post',
                 headers: {
@@ -120,7 +120,7 @@ export function unregister() {
             }).then(function (subscription) {
                 return subscription?.unsubscribe()
                     .then(function () {
-                        return fetch(`${REACT_APP_WEBPUSH_ENDPOINT}/webpush/unregister`, {
+                        return fetch(`${VITE_WEBPUSH_ENDPOINT}/webpush/unregister`, {
                             credentials: "include",
                             method: 'post',
                             headers: {

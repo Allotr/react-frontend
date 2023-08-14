@@ -18,7 +18,7 @@ initializeBundles();
 
 
 const link = createHttpLink({
-  uri: getLoadedEnvVariables().REACT_APP_HTTPS_API_ENDPOINT,
+  uri: getLoadedEnvVariables().VITE_HTTPS_API_ENDPOINT,
   credentials: "include"
 })
 

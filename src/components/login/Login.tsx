@@ -25,7 +25,7 @@ function Login() {
           className="flex items-center"
           label={t('LoginWithGoogle')}
           onClick={() => {
-            window.location.replace(getLoadedEnvVariables().REACT_APP_GOOGLE_LOGIN_ENDPOINT);
+            window.location.replace(getLoadedEnvVariables().VITE_GOOGLE_LOGIN_ENDPOINT);
           }}
         />
       </div>
