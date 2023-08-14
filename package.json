@@ -22,7 +22,7 @@
     "allotr-graphql-schema-types": "1.0.0",
     "file-loader": "^6.2.0",
     "graphql": "^15.5.0",
-    "graphql-ws": "^4.6.0",
+    "graphql-ws": "^5.14.0",
     "i18next": "^20.4.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
