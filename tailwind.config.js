@@ -1,6 +1,7 @@
-module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: false, // or 'media' or 'class'
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html', './index.html'],
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
     colors: {
       transparent: 'transparent',
@@ -18,7 +19,7 @@ module.exports = {
       yellow: {
         DEFAULT: '#E6B802',
       },
-      red:{
+      red: {
         DEFAULT: 'red'
       }
     }
@@ -28,3 +29,4 @@ module.exports = {
   },
   plugins: [],
 }
+

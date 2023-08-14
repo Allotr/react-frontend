@@ -26,7 +26,7 @@ function BurgerMenu() {
                 <LongActionButton action={() => {
                     deleteSessionValue(CURRENT_USER_DATA);
                     serviceWorkerRegistration.unregister()
-                    window.location.replace(getLoadedEnvVariables().REACT_APP_GOOGLE_LOGOUT_ENDPOINT);
+                    window.location.replace(getLoadedEnvVariables().VITE_GOOGLE_LOGOUT_ENDPOINT);
                 }} label="Logout" ></LongActionButton>
             </div>
         </Menu>

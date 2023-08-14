@@ -1,4 +1,4 @@
-import { DocumentNode } from "@apollo/react-hooks";
+import { DocumentNode } from "@apollo/client";
 
 function getGqlString(doc: DocumentNode) {
     return doc.loc && doc.loc.source.body;

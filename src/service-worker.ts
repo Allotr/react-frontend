@@ -25,13 +25,13 @@ import i18n from './i18nGeneric';
 
 declare const self: ServiceWorkerGlobalScope;
 
-const { REACT_APP_WEBPUSH_ENDPOINT, REACT_APP_REDIRECT_URL } = getLoadedEnvVariables();
+const { VITE_WEBPUSH_ENDPOINT, VITE_REDIRECT_URL } = getLoadedEnvVariables();
 
 
 // Add Apollo Client
 
 const link = createHttpLink({
-    uri: getLoadedEnvVariables().REACT_APP_HTTPS_API_ENDPOINT,
+    uri: getLoadedEnvVariables().VITE_HTTPS_API_ENDPOINT,
     credentials: "include"
 })
 
@@ -143,7 +143,7 @@ self.addEventListener('notificationclick', function (event) {
 
     event.notification.close();
     event.waitUntil(
-        self.clients.openWindow(REACT_APP_REDIRECT_URL)
+        self.clients.openWindow(VITE_REDIRECT_URL)
     );
 });
 
@@ -157,7 +157,7 @@ self.addEventListener('pushsubscriptionchange', function (event: any) {
         self.registration.pushManager.subscribe({ userVisibleOnly: true })
             .then(function (subscription) {
                 console.log('Subscribed after expiration', subscription.endpoint);
-                return fetch(`${REACT_APP_WEBPUSH_ENDPOINT}/webpush/register`, {
+                return fetch(`${VITE_WEBPUSH_ENDPOINT}/webpush/register`, {
                     method: 'post',
                     headers: {
                         'Content-type': 'application/json'
