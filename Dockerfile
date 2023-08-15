@@ -1,5 +1,5 @@
 # Build stage
-FROM --platform=${BUILDPLATFORM:-linux/amd64} node:18.17.1-alpine3.18 as build
+FROM --platform=$BUILDPLATFORM node:18.17.1-alpine3.18 as build
 RUN mkdir /app
 WORKDIR /app
 COPY . .
