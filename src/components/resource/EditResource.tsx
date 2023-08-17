@@ -173,7 +173,7 @@ function EditResource() {
                     </label>
                     <textarea
                         className="block mt-3 pt-1 mb-5 bg-purple-light text-yellow ml-3  pl-3 w-4/5 "
-                        {...(viewResource.description != null ? register("description") : null)}
+                        {...(viewResource.description != null ? register("description", { maxLength: 1000 }) : null)}
                         defaultValue={viewResource.description ?? ""}
                     />
 
