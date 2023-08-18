@@ -9,6 +9,8 @@
 // service worker, and the Workbox build step will be skipped.
 
 import { clientsClaim } from 'workbox-core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
 import { getLoadedEnvVariables } from './utils/env-loader';
@@ -61,6 +63,8 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 // precacheAndRoute(self.__WB_MANIFEST);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const ignored = self.__WB_MANIFEST;
 
 registerRoute(
     () => true,
