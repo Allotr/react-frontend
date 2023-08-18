@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AllotrLogo from "../../assets/AllotrLogo";
 import ActionButton from "../generic/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
@@ -12,7 +12,7 @@ function DeleteResource() {
     // const _id = getSessionValue<any>(CURRENT_USER_DATA)?._id as string;
     const { id } = useParams<{ id: string }>();
     const { data, loading } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id } })
-    const history = useHistory();
+    const navigate = useNavigate();
     const [disabled, setDisabled] = useState(false);
     const [callDeleteResource] = useMutation<DeleteResourceMutation, DeleteResourceMutationVariables>(DeleteResourceGQL)
 
@@ -25,8 +25,8 @@ function DeleteResource() {
             return;
         }
         // Go back to main page
-        history.goBack();
-        history.goBack();
+        navigate(-1);
+        navigate(-1);
     }
 
 
@@ -58,7 +58,7 @@ function DeleteResource() {
             {/* Action Buttons */}
             <div className="buttonBar  flex justify-around pb-6  ml-5 md:ml-10 ">
                 <div className="flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                    <DiscardButton action={() => history.goBack()} label="Cancel" />
+                    <DiscardButton action={() => navigate(-1)} label="Cancel" />
                 </div>
                 <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                     <ActionButton

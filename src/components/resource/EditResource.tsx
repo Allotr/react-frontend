@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AllotrLogo from "../../assets/AllotrLogo";
 import ActionButton from "../generic/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
     LocalRole,
@@ -33,10 +33,12 @@ type Inputs = {
 
 function EditResource() {
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const isFirst = useRef<boolean>(true);
+
+    // GraphQL data queries/mutations
     const { data: queryData, loading: queryLoading, error: queryError } = useQuery<ViewResourceQuery>(ViewResource, { variables: { resourceId: id } })
+    
     const [viewResource, setViewResource] = useState<ResourceView>(!queryLoading ? queryData?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView);
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([]);
     const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, { role: LocalRole, isActive: boolean }>>({});
@@ -46,8 +48,11 @@ function EditResource() {
         if (e.code === 'Enter') e.preventDefault();
     };
 
-    const [createResourceCall, { data, loading, error }] =
-        useMutation<UpdateResourceMutation>(UpdateResource);
+    const [createResourceCall, {
+        data: mutationData,
+        loading: mutationLoading,
+        error: mutationError
+    }] = useMutation<UpdateResourceMutation>(UpdateResource);
 
     const onSelectedUserListChanged = (userList: PublicUser[]) => {
         setSelectedUserList(userList);
@@ -61,15 +66,16 @@ function EditResource() {
     // Navigate to home once the resource is created
     useEffect(() => {
         if (
-            !loading &&
-            data?.updateResource?.status === OperationResult.Ok &&
-            !error
+            !mutationLoading &&
+            mutationData?.updateResource?.status === OperationResult.Ok &&
+            !mutationError
         ) {
-            history.goBack();
+            navigate(-1);
         }
         setDisabled(false);
-    }, [loading, history, data, error, id]);
+    }, [mutationLoading, navigate, mutationData, mutationError, id]);
 
+    // Load initial users and roles
     useEffect(() => {
         if (queryLoading || queryError) {
             return;
@@ -88,20 +94,21 @@ function EditResource() {
                         [
                             user.userId ?? "",
                             {
-                                role: isFirst.current ? user.role : selectedRoleMap[user.userId ?? ""].role,
+                                role: user.role,
                                 isActive: lastStatus.statusCode === TicketStatusCode.Active
                             }
                         ]
                     )
             );
-        setSelectedUserList(isFirst.current ? newSelectedUserList : selectedUserList);
+        setSelectedUserList(newSelectedUserList);
         setViewResource(viewResource);
-        setSelectedRoleMap(isFirst.current ? newSelectedRoleMap : selectedRoleMap);
-        isFirst.current = false;
-    }, [queryData, queryLoading, queryError, selectedUserList, selectedRoleMap])
+        setSelectedRoleMap(newSelectedRoleMap);
+    }, [queryData, queryLoading, queryError])
 
+    // Form validation
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
+    const onSubmit: SubmitHandler<Inputs> = ({ name, description, maxActiveTickets }) => {
+        // If there is no admin
         if (selectedUserList.filter(({ id }) => selectedRoleMap[id ?? ""]?.role === LocalRole.ResourceAdmin).length === 0) {
             return;
         }
@@ -116,7 +123,7 @@ function EditResource() {
                 role: selectedRoleMap[id ?? ""]?.role ?? LocalRole.ResourceUser,
             })),
         };
-        await createResourceCall({
+        return createResourceCall({
             variables: { resource },
         });
 
@@ -146,7 +153,7 @@ function EditResource() {
                     <AllotrLogo width="40" height="40" className="flex"></AllotrLogo>
                 </div>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} onKeyDown={(e) => checkKeyDown(e)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form md:pt-20 md:pl-8 pt-16 pl-2 break-words">
                     {/* Name */}
                     <label
@@ -157,6 +164,7 @@ function EditResource() {
                         className="block mt-3  bg-purple-light text-yellow ml-3 pl-3 w-4/5"
                         id="editresource-form-name"
                         autoComplete="off"
+                        onKeyDown={(e) => checkKeyDown(e)}
                         {...(viewResource.name ? register("name", { required: true, maxLength: 200 }) : null)}
                         defaultValue={viewResource.name}
                     />
@@ -193,6 +201,7 @@ function EditResource() {
                     <input
                         className="block mt-3  bg-purple-light text-yellow ml-3 h-10 pl-3 w-1/4"
                         type="number"
+                        onKeyDown={(e) => checkKeyDown(e)}
                         id="editresource-form-maxActiveTickets"
                         {...(viewResource.maxActiveTickets != null ? register("maxActiveTickets", {
                             min: 1,
@@ -268,7 +277,7 @@ function EditResource() {
                 {/* Action Buttons */}
                 <div className="buttonBar  flex justify-around pb-6">
                     <div className=" flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                        <DiscardButton action={() => history.goBack()} label="Cancel" />
+                        <DiscardButton action={() => navigate(-1)} label="Cancel" />
                     </div>
                     <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                         <ActionButton

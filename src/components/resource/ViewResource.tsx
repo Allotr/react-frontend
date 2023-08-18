@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import AllotrLogo from "../../assets/AllotrLogo";
 import DiscardButton from "../generic/DiscardButton";
 import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { ViewResourceQuery, ViewResource as ViewResourceGQL, ResourceView, LocalRole, TicketStatusCode, RequestSource, UserDbObject, ReleaseResource, ReleaseResourceMutation, ReleaseResourceMutationVariables, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, TicketView } from "allotr-graphql-schema-types";
 import Key from "../../assets/Key";
@@ -22,11 +22,12 @@ import EditPen from "../../assets/EditPen";
 
 function ViewResource() {
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
     const { _id } = getSessionValue<UserDbObject>(CURRENT_USER_DATA);
 
     const { id } = useParams<{ id: string }>();
 
+    // GraphQL data queries/mutations
     const { data, loading, error } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 300 })
     const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource);
     const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource);
@@ -51,15 +52,18 @@ function ViewResource() {
         REVOKED: null
     }
 
-    useEffect(() => {
+    useEffect(()=>{
         if (error || (!loading && data?.viewResource == null)) {
-            history.goBack();
+            navigate(-1);
             return;
         }
         if (loading) {
             return;
         }
         setViewResource(data?.viewResource as ResourceView);
+    },[data, loading, error, navigate])
+
+    useEffect(() => {
         const ticketList = viewResource?.tickets ?? [];
         setTicketListToShow(ticketList.filter(({ lastStatus }) => [
             TicketStatusCode.Active,
@@ -67,7 +71,7 @@ function ViewResource() {
             TicketStatusCode.Queued
         ].includes(lastStatus.statusCode)));
         setMyTicket(ticketList.find(({ user }) => user.userId === _id ?? ""))
-    }, [data, loading, error, _id, viewResource, history])
+    }, [viewResource, _id, navigate])
 
     useEffect(() => {
         setDisabled(loading);
@@ -75,6 +79,9 @@ function ViewResource() {
 
 
     const releaseResource = async () => {
+        if (id == null) {
+            return;
+        }
         setDisabled(true);
         const { errors } = await callReleaseResource({ variables: { resourceId: id, requestFrom: RequestSource.Resource } });
         setDisabled(false);
@@ -84,6 +91,9 @@ function ViewResource() {
     }
 
     const requestResource = async () => {
+        if (id == null) {
+            return;
+        }
         setDisabled(true);
         const { errors } = await callRequestResource({ variables: { resourceId: id, requestFrom: RequestSource.Resource } });
         setDisabled(false);
@@ -126,9 +136,9 @@ function ViewResource() {
                     </p>
                     {myTicket?.user.role === LocalRole.ResourceAdmin ?
                         <div className="flex">
-                            <div><MiniActionButton action={() => { history.push(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen} ariaLabel="EditResource"></MiniActionButton></div>
+                            <div><MiniActionButton action={() => { navigate(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen} ariaLabel="EditResource"></MiniActionButton></div>
                             <div className="w-2"></div>
-                            <div><MiniActionButton action={() => { history.push(`/deleteResource/${id}`) }} fill={COLORS.blue.light} logo={TrashCan} ariaLabel="DeleteResource"></MiniActionButton></div>
+                            <div><MiniActionButton action={() => { navigate(`/deleteResource/${id}`) }} fill={COLORS.blue.light} logo={TrashCan} ariaLabel="DeleteResource"></MiniActionButton></div>
                         </div>
                         : <div className="flex h-14" />}
 
@@ -195,7 +205,7 @@ function ViewResource() {
             {/* Action Buttons */}
             <div className="buttonBar  flex justify-around pb-6">
                 <div className=" flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                    <DiscardButton action={() => history.goBack()} label="Back" />
+                    <DiscardButton action={() => navigate(-1)} label="Back" />
                 </div>
                 <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                     <div className="self-start">{componentMap[myTicket?.lastStatus.statusCode ?? TicketStatusCode.Revoked]}</div>

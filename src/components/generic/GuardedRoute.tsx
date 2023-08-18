@@ -1,12 +1,16 @@
-import React from 'react';
-import { Route, Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-const GuardedRoute = ({ component: Component, auth, ...rest }: any) => {
-    return <Route {...rest} render={(props) => (
-        auth === true
-            ? <Component {...props} />
-            : <Redirect to='/login' />
-    )} />
+export type ProtectedRouteProps = {
+    isAuthenticated: boolean;
+    authenticationPath: string;
+    outlet: JSX.Element;
+};
+
+export function GuardedRoute({ isAuthenticated, authenticationPath, outlet }: ProtectedRouteProps) {
+    if (isAuthenticated) {
+        return outlet;
+    } else {
+        return <Navigate to={{ pathname: authenticationPath }} />;
+    }
 }
 
-export default GuardedRoute;

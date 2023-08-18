@@ -1,5 +1,5 @@
 /// <reference lib="webworker" />
-/* eslint-disable no-restricted-globals */
+
 
 // This service worker can be customized!
 // See https://developers.google.com/web/tools/workbox/modules
@@ -9,7 +9,6 @@
 // service worker, and the Workbox build step will be skipped.
 
 import { clientsClaim } from 'workbox-core';
-import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
 import { getLoadedEnvVariables } from './utils/env-loader';
@@ -62,10 +61,9 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 // precacheAndRoute(self.__WB_MANIFEST);
-const ignored = self.__WB_MANIFEST;
 
 registerRoute(
-    ({ url }) => true,
+    () => true,
     new NetworkOnly()
 );
 
@@ -151,6 +149,7 @@ self.addEventListener('notificationclick', function (event) {
 // subscription expires. Subscribe again and register the new subscription
 // in the server by sending a POST request with endpoint. Real world
 // application would probably use also user identification.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 self.addEventListener('pushsubscriptionchange', function (event: any) {
     console.log('Subscription expired');
     event.waitUntil(

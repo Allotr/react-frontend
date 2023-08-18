@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AllotrLogo from "../../assets/AllotrLogo";
 import ActionButton from "../generic/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
@@ -12,8 +12,8 @@ import { deleteSessionValue, getSessionValue } from "../../utils/storage-utils";
 
 function DeleteAccount() {
     const { t } = useTranslation();
-    const _id = getSessionValue<any>(CURRENT_USER_DATA)?._id as string;
-    const history = useHistory();
+    const _id = getSessionValue<{ _id?: string }>(CURRENT_USER_DATA)?._id as string;
+    const navigate = useNavigate();
     const [isFlagChecked, setIsFlagChecked] = useState(false);
     const [disabled, setDisabled] = useState(false);
     const [callDeleteUser] = useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUser)
@@ -33,7 +33,7 @@ function DeleteAccount() {
 
         deleteSessionValue(CURRENT_USER_DATA);
         serviceWorkerRegistration.unregister()
-        history.push("/login")
+        navigate("/login")
 
     }
 
@@ -70,7 +70,7 @@ function DeleteAccount() {
             {/* Action Buttons */}
             <div className="buttonBar  flex justify-around pb-6  ml-5 md:ml-10 ">
                 <div className="flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                    <DiscardButton action={() => history.goBack()} label="Back" />
+                    <DiscardButton action={() => navigate(-1)} label="Back" />
                 </div>
                 <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                     <ActionButton

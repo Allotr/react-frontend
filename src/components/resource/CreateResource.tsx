@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import AllotrLogo from "../../assets/AllotrLogo";
 import ActionButton from "../generic/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
     LocalRole,
@@ -32,18 +32,23 @@ type Inputs = {
 
 function CreateResource() {
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const { _id, username, name, surname } = getSessionValue<User>(CURRENT_USER_DATA);
     const [selectedUserList, setSelectedUserList] = useState<PublicUser[]>([{ id: _id, name, surname, username }]);
     const [selectedRoleMap, setSelectedRoleMap] = useState<Record<string, LocalRole>>({ [_id ?? ""]: LocalRole.ResourceAdmin });
     const [disabled, setDisabled] = useState(false);
 
-    const [createResourceCall, { data, loading, error }] =
-        useMutation<CreateResourceMutation>(CreateResourceGQL);
+    // GraphQL data queries/mutations
+    const [createResourceCall, { data, loading, error }] = useMutation<CreateResourceMutation>(CreateResourceGQL);
 
     const onSelectedUserListChanged = (userList: PublicUser[]) => {
         setSelectedUserList(userList);
+    };
+
+
+    const checkKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+        if (e.code === 'Enter') e.preventDefault();
     };
 
 
@@ -58,10 +63,10 @@ function CreateResource() {
             data?.createResource?.status === OperationResult.Ok &&
             !error
         ) {
-            history.replace(`/viewResource/${data?.createResource?.newObjectId}`);
+            navigate(`/viewResource/${data?.createResource?.newObjectId}`, { replace: true });
         }
         setDisabled(false);
-    }, [loading, history, data, error]);
+    }, [loading, navigate, data, error]);
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = async ({ name, description, maxActiveTickets }) => {
@@ -119,6 +124,7 @@ function CreateResource() {
                         className="block mt-3  bg-purple-light text-yellow ml-3 pl-3 w-4/5"
                         id="createresource-form-name"
                         autoComplete="off"
+                        onKeyDown={(e) => checkKeyDown(e)}
                         {...register("name", { required: true, maxLength: 200 })}
                     />
                     {errors?.name && (
@@ -156,6 +162,7 @@ function CreateResource() {
                         className="block mt-3  bg-purple-light text-yellow ml-3 h-10 pl-3 w-1/4"
                         type="number"
                         id="createresource-form-maxActiveTickets"
+                        onKeyDown={(e) => checkKeyDown(e)}
                         {...register("maxActiveTickets", {
                             min: 1,
                             max: 9999,
@@ -224,7 +231,7 @@ function CreateResource() {
                 {/* Action Buttons */}
                 <div className="buttonBar  flex justify-around pb-6">
                     <div className=" flex items-center justify-center  bottom-10 left-5 md:bottom-16 md:left-16 ">
-                        <DiscardButton action={() => history.goBack()} label="Cancel" />
+                        <DiscardButton action={() => navigate(-1)} label="Cancel" />
                     </div>
                     <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
                         <ActionButton
