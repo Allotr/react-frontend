@@ -24,6 +24,7 @@
         "SearchUserTable": "Buscar",
         "SearchPlaceholder": "Nombre, apellido o username...",
         "FieldRequired": "Este campo es obligatorio",
+        "TextTooLong": "El texto es demasiado largo. Debe tener menos de 1000 caracteres",
         "InvalidNumberPositive": "Por favor, introduce un número positivo mayor que 0 y menor que 9999",
         "SearchUsersForm": "Añade usuarios",
         "AddAUserError": "Debes añadir al menos un usuario",

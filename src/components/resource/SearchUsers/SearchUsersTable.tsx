@@ -67,6 +67,7 @@ function SearchUsersTable({
                     {/* Input search */}
                     <div className="flex-1">
                         <input
+                            id="searchusers-form-inputsearch"
                             type="text"
                             className="h-9 w-full bg-purple-light text-yellow cursor-text placeholder-yellow placeholder-opacity-60 pl-3"
                             value={inpuText}

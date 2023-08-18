@@ -121,10 +121,9 @@ function ViewResource() {
             <div className="form md:pt-20 md:pl-8 pt-16 pl-2 break-words">
                 {/* Name */}
                 <div className="flex justify-between mr-4">
-                    <label
-                        htmlFor="name"
-                        className="text-blue-light text-3xl text-left ml-3 m-auto block"
-                    >{`${t("NameViewResource")}`}</label>
+                    <p className="text-blue-light text-3xl text-left ml-3 m-auto block" >
+                        {`${t("NameViewResource")}`}
+                    </p>
                     {myTicket?.user.role === LocalRole.ResourceAdmin ?
                         <div className="flex">
                             <div><MiniActionButton action={() => { history.push(`/editResource/${id}`) }} fill={COLORS.blue.light} logo={EditPen} ariaLabel="EditResource"></MiniActionButton></div>
@@ -138,30 +137,23 @@ function ViewResource() {
                     {viewResource?.name ?? t("LoadingText")}
                 </p>
                 {/* Description */}
-                <label
-                    htmlFor="description"
-                    className="text-blue-light text-3xl text-left ml-3 m-auto block"
-                >
+                <p className="text-blue-light text-3xl text-left ml-3 m-auto block" >
                     {t("DescriptionViewResource")}
-                </label>
-                <p
-                    className={`block mt-3 pt-1 mb-5  text-yellow ml-3  pl-3 w-4/5 ${!viewResource?.description ? "italic" : ""}`}>
+                </p>
+                <p className={`block mt-3 pt-1 mb-5  text-yellow ml-3  pl-3 w-4/5 ${!viewResource?.description ? "italic" : ""}`}>
                     {viewResource?.description === "" ? t("NoDescription") : viewResource?.description ?? t("LoadingText")}</p>
 
                 {/* Max Active tickets */}
-                <label
-                    htmlFor="maxActiveTickets"
-                    className="text-blue-light text-3xl text-left ml-3 m-auto block"
-                >{`${t("MaxUsersViewResource")}`}</label>
-                <p
-                    className={`block mt-3 text-yellow ml-3 h-10 pl-3 w-1/4 ${viewResource?.maxActiveTickets == null ? "italic" : ""}`}>
+                <p className="text-blue-light text-3xl text-left ml-3 m-auto block" >
+                    {`${t("MaxUsersViewResource")}`}
+                </p>
+                <p className={`block mt-3 text-yellow ml-3 h-10 pl-3 w-1/4 ${viewResource?.maxActiveTickets == null ? "italic" : ""}`}>
                     {viewResource?.maxActiveTickets ?? t("LoadingNumber")}
                 </p>
                 {/* View active users and queue */}
-                <label
-                    htmlFor="userList"
-                    className="text-blue-light text-3xl text-left ml-3 mt-2 m-auto block"
-                >{`${t("UsersViewResource")}`}</label>
+                <p className="text-blue-light text-3xl text-left ml-3 mt-2 m-auto block">
+                    {`${t("UsersViewResource")}`}
+                </p>
                 <div className="mt-3 ml-2 pb-5 h-48 overflow-y-scroll w-11/12">
                     {viewResource == null && <p className="text-yellow block text-left pt-4 pl-3 italic">{t("LoadingText")}</p>}
                     {ticketListToShow.length > 0 ? ticketListToShow.map(ticket => (

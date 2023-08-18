@@ -112,11 +112,13 @@ function CreateResource() {
                 <div className="form md:pt-20 md:pl-8 pt-16 pl-2 break-words">
                     {/* Name */}
                     <label
-                        htmlFor="name"
+                        htmlFor="createresource-form-name"
                         className="text-blue-light text-3xl text-left ml-3 m-auto block"
                     >{`${t("NameForm")}*`}</label>
                     <input
                         className="block mt-3  bg-purple-light text-yellow ml-3 pl-3 w-4/5"
+                        id="createresource-form-name"
+                        autoComplete="off"
                         {...register("name", { required: true, maxLength: 200 })}
                     />
                     {errors?.name && (
@@ -127,26 +129,33 @@ function CreateResource() {
 
                     {/* Description */}
                     <label
-                        htmlFor="description"
+                        htmlFor="createresource-form-description"
                         className="text-blue-light text-3xl text-left ml-3 m-auto block"
                     >
                         {t("DescriptionForm")}
                     </label>
                     <textarea
                         className="block mt-3 pt-1 mb-5 bg-purple-light text-yellow ml-3  pl-3 w-4/5 "
+                        id="createresource-form-description"
                         {...register("description", {
                             maxLength: 1000
                         })}
                     />
+                    {errors?.description && (
+                        <span className="text-yellow text-left mt-1 mr-3 mb-5 ml-5 m-auto block">
+                            {t("TextTooLong")}
+                        </span>
+                    )}
 
                     {/* Max Active tickets */}
                     <label
-                        htmlFor="maxActiveTickets"
+                        htmlFor="createresource-form-maxActiveTickets"
                         className="text-blue-light text-3xl text-left ml-3 m-auto block"
                     >{`${t("MaxUsersForm")}*`}</label>
                     <input
                         className="block mt-3  bg-purple-light text-yellow ml-3 h-10 pl-3 w-1/4"
                         type="number"
+                        id="createresource-form-maxActiveTickets"
                         {...register("maxActiveTickets", {
                             min: 1,
                             max: 9999,
@@ -161,10 +170,9 @@ function CreateResource() {
                     )}
 
                     {/* Search Users */}
-                    <label
-                        htmlFor="searchUserList"
-                        className="text-blue-light text-3xl text-left ml-3 m-auto block"
-                    >{`${t("SearchUsersForm")}*`}</label>
+                    <p className="text-blue-light text-3xl text-left ml-3 m-auto block" >
+                        {`${t("SearchUsersForm")}*`}
+                    </p>
                     <div className="mt-3 ml-2">
                         <SearchUsersTable
                             selectedUserList={selectedUserList}
@@ -173,10 +181,9 @@ function CreateResource() {
                     </div>
 
                     {/* View added users */}
-                    <label
-                        htmlFor="userList"
-                        className="text-yellow text-3xl text-left ml-3 mt-2 m-auto block"
-                    >{`${t("UsersForm")}`}</label>
+                    <p className="text-yellow text-3xl text-left ml-3 mt-2 m-auto block">
+                        {`${t("UsersForm")}`}
+                    </p>
                     <div className="mt-3 ml-2 pb-5">
                         {selectedUserList.map(user => (
                             <div className="mb-2 flex h-14 justify-between w-11/12" key={user.id}>
