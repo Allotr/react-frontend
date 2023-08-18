@@ -11,7 +11,7 @@ function Credits() {
   return (
 
     <div className="creditsflex-cols items-center pb-3">
-        <p className="text-blue-light text-center text-sm">{t("Credits")}-${new Date().getFullYear()}</p>
+        <p className="text-blue-light text-center text-sm">{t("Credits")}-{new Date().getFullYear()}</p>
     </div>
   );
 }
