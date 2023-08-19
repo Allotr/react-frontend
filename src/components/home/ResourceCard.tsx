@@ -106,11 +106,11 @@ function ResourceCard({
     const borderColorByStatus: Record<TicketStatusCode, string> = {
         ACTIVE: "border-yellow",
         AWAITING_CONFIRMATION: "border-blue-light",
-        INACTIVE: "border-purple-dark",
-        INITIALIZED: "border-purple-dark",
+        INACTIVE: "border-purple",
+        INITIALIZED: "border-purple",
         QUEUED: "border-blue-light",
         REQUESTING: "border-blue-light",
-        REVOKED: "border-purple-dark"
+        REVOKED: "border-purple"
     }
 
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
