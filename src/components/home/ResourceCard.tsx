@@ -103,9 +103,18 @@ function ResourceCard({
         setCurrentCard(resourceCard);
     }
 
+    const borderColorByStatus: Record<TicketStatusCode, string> = {
+        ACTIVE: "border-yellow",
+        AWAITING_CONFIRMATION: "border-blue-light",
+        INACTIVE: "border-purple",
+        INITIALIZED: "border-purple",
+        QUEUED: "border-blue-light",
+        REQUESTING: "border-blue-light",
+        REVOKED: "border-purple"
+    }
 
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
-        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.blue.light} disabled={disabled} ></ActionButton>,
+        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.yellow.DEFAULT} disabled={disabled} textColorClass="text-yellow" hoverColorClass="hover:border-yellow"></ActionButton>,
         AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
         INACTIVE: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
         INITIALIZED: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
@@ -115,17 +124,24 @@ function ResourceCard({
     }
 
     return (
-        <div className="resourceCard bg-purple-dark min-h-32 w-11/12 m-auto mt-10 flex justify-between break-all md:break-normal pb-7">
+        <div className={"resourceCard bg-purple-dark min-h-32 w-11/12 m-auto mt-10 flex justify-between break-all md:break-normal pb-7 border-4 " + borderColorByStatus[currentCard.statusCode]}>
             <div className="self-start mt-4 ml-2">
                 <ActiveUserStatus currentUsers={currentCard.activeUserCount} maxUsers={currentCard.maxActiveTickets} key={1} />
             </div>
             <div className="flex-col flex-grow ml-3">
                 <div className="mt-3"></div>
-                <Link to={`/viewResource/${currentCard.resourceId}`} className="text-yellow text-base text-left  hover:underline"> {name}</Link>
-                <p className="text-blue text-xs text-left">{`${t("CreatedBy")}${currentCard.createdBy?.username ?? ""}`}</p>
-                <p className="text-blue-light text-sm text-left mt-3">{currentCard.description}</p>
+                <Link to={`/viewResource/${currentCard.resourceId}`} className="text-blue-light text-base text-left  hover:underline font-bold"> {name}</Link>
+                <div className="-mt-1.5">
+                    <p className="text-yellow text-xs text-left inline">{t("CreatedBy")}
+                    </p>
+                    <p className="text-yellow text-xs text-left inline font-semibold">{`${currentCard.createdBy?.username ?? ""}`}</p>
+                </div>
+                <p className="text-yellow text-sm text-left mt-3 hyphens-none hover:hyphens-auto" lang="es" >{currentCard.description}</p>
+                <p className="text-yellow text-xs text-left mt-3 break-words font-thin italic">{t("LastUpdate")}</p>
                 {/* TODO: Change forced locale once used internationally */}
-                <p className="text-blue-light text-xs text-left mt-3 break-words">{`${t("LastUpdate")}\r\n${new Date(currentCard.lastModificationDate).toLocaleDateString("es-ES")}\t${new Date(currentCard.lastModificationDate).toLocaleTimeString("es-ES")}`}</p>
+                <p className="text-yellow text-xs text-left mt-3 break-words inline font-light not-italic">
+                    {`\n${new Date(currentCard.lastModificationDate).toLocaleDateString("es-ES")}\t${new Date(currentCard.lastModificationDate).toLocaleTimeString("es-ES")}`}
+                </p>
             </div>
 
             <div className="mt-4 ml-2 mr-3  self-start">{componentMap[currentCard.statusCode]}</div>

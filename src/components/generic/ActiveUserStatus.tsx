@@ -6,8 +6,8 @@ function ActiveUserStatus({ currentUsers, maxUsers }: { currentUsers: number, ma
     }, [])
 
     return (
-        <div className="ml-2 flex-grow w-14 h-14  bg-blue-light flex content-center">
-                <p className="content-center flex-grow m-auto text-purple-dark text-center font-bold break-words">{`${currentUsers}/\r\n${maxUsers}`}</p>
+        <div className="ml-2 flex-grow w-14 h-14 bg-blue-dark border border-yellow flex content-center">
+                <p className="content-center flex-grow m-auto text-yellow text-center font-bold break-words">{`${currentUsers}/\r\n${maxUsers}`}</p>
         </div>
     );
 }

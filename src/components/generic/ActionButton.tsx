@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-function ActionButton({ action,onKeyDown, type, label, logo: SVGLogo, fill, disabled = false }: {
+function ActionButton({ action, onKeyDown, type, label, logo: SVGLogo, fill, disabled = false, textColorClass = 'text-blue-light', hoverColorClass = 'hover:border-blue-light' }: {
     action: () => void,
     onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void,
     type?: "button" | "reset" | "submit" | undefined,
     label: string,
     fill?: string,
+    textColorClass?: string,
+    hoverColorClass?: string,
     logo?: React.FC<{ height: string, width: string, fill: string }>,
     disabled?: boolean
 }) {
@@ -18,12 +20,12 @@ function ActionButton({ action,onKeyDown, type, label, logo: SVGLogo, fill, disa
     return (
         <button
             type={type}
-            className="w-28 h-9 bg-purple hover:border-blue-light border-2 border-transparent flex justify-between"
+            className={"w-28 h-9 bg-purple border-2 border-transparent flex justify-between " + hoverColorClass}
             onClick={action}
             disabled={disabled}
             onKeyDown={onKeyDown}
         >
-            <p className="text-blue-light text-xl text-center m-auto inline-block  align-middle     ">{t(label)}</p>
+            <p className={"text-xl text-center m-auto inline-block align-middle " + textColorClass}>{t(label)}</p>
 
             {SVGLogo != null && fill != null ?
                 <div className="m-auto inline-block  align-middle">
