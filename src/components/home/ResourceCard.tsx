@@ -114,7 +114,7 @@ function ResourceCard({
     }
 
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
-        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.yellow.DEFAULT} disabled={disabled} textColorClass="text-yellow" hoverColorClass="hover:border-yellow"></ActionButton>,
+        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
         AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
         INACTIVE: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
         INITIALIZED: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
@@ -139,7 +139,7 @@ function ResourceCard({
                 <p className="text-yellow text-sm text-left mt-3 hyphens-none hover:hyphens-auto" lang="es" >{currentCard.description}</p>
                 <p className="text-yellow text-xs text-left mt-3 break-words font-thin italic">{t("LastUpdate")}</p>
                 {/* TODO: Change forced locale once used internationally */}
-                <p className="text-yellow text-xs text-left mt-3 break-words inline font-light not-italic">
+                <p className="text-yellow text-xs text-left mt-3 break-words inline font-thin not-italic">
                     {`\n${new Date(currentCard.lastModificationDate).toLocaleDateString("es-ES")}\t${new Date(currentCard.lastModificationDate).toLocaleTimeString("es-ES")}`}
                 </p>
             </div>
