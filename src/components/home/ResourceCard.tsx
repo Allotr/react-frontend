@@ -106,11 +106,11 @@ function ResourceCard({
     const borderColorByStatus: Record<TicketStatusCode, string> = {
         ACTIVE: "border-yellow",
         AWAITING_CONFIRMATION: "border-blue-light",
-        INACTIVE: "border-purple",
-        INITIALIZED: "border-purple",
+        INACTIVE: "border-purple-dark",
+        INITIALIZED: "border-purple-dark",
         QUEUED: "border-blue-light",
         REQUESTING: "border-blue-light",
-        REVOKED: "border-purple"
+        REVOKED: "border-purple-dark"
     }
 
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
@@ -124,7 +124,7 @@ function ResourceCard({
     }
 
     return (
-        <div className={"resourceCard bg-purple-dark min-h-32 w-11/12 m-auto mt-10 flex justify-between break-all md:break-normal pb-7 border-4 " + borderColorByStatus[currentCard.statusCode]}>
+        <div className={"resourceCard bg-purple-dark min-h-32 w-11/12 m-auto mt-10 flex justify-between break-all md:break-normal pb-7 border-2 " + borderColorByStatus[currentCard.statusCode]}>
             <div className="self-start mt-4 ml-2">
                 <ActiveUserStatus currentUsers={currentCard.activeUserCount} maxUsers={currentCard.maxActiveTickets} key={1} />
             </div>
