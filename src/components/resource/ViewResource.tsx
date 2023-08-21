@@ -105,7 +105,7 @@ function ViewResource() {
 
 
     const componentMap: Record<TicketStatusCode, ReactElement | null> = {
-        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.blue.light} disabled={disabled} ></ActionButton>,
+        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.yellow.DEFAULT} disabled={disabled} textColorClass="text-yellow" hoverColorClass="hover:border-yellow"></ActionButton>,
         AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
         INACTIVE: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
         INITIALIZED: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
