@@ -136,7 +136,7 @@ function ResourceCard({
                     </p>
                     <p className="text-blue-light text-xs text-left inline font-semibold">{`${currentCard.createdBy?.username ?? ""}`}</p>
                 </div>
-                <p className="text-blue-light text-sm text-left mt-3 hyphens-none hover:hyphens-auto" lang="es" >{currentCard.description}</p>
+                <p className="text-blue-light text-sm text-left mt-3 hyphens-auto" lang="es" >{currentCard.description}</p>
                 <p className="text-blue-light text-xs text-left mt-3 break-words font-thin italic">{t("LastUpdate")}</p>
                 {/* TODO: Change forced locale once used internationally */}
                 <p className="text-blue-light text-xs text-left mt-3 break-words inline font-thin not-italic">
