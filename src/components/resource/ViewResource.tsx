@@ -28,7 +28,7 @@ function ViewResource() {
     const { id } = useParams<{ id: string }>();
 
     // GraphQL data queries/mutations
-    const { data, loading, error } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 300 })
+    const { data, loading, error } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 500 })
     const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource);
     const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource);
 

@@ -10,7 +10,7 @@ import { useQuery } from "@apollo/client";
 import { MyResourcesQuery, MyResources, ResourceCard as ResourceCardType } from "allotr-graphql-schema-types";
 
 function Home() {
-  const { data, loading } = useQuery<MyResourcesQuery>(MyResources, { pollInterval: 300 });
+  const { data, loading } = useQuery<MyResourcesQuery>(MyResources, { pollInterval: 500 });
   const { t } = useTranslation();
   const navigate = useNavigate();
   const myResources = data?.myResources;
