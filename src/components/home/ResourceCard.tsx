@@ -11,7 +11,7 @@ import { useMutation } from "@apollo/client";
 import { COLORS } from "../../consts/colors";
 
 function ResourceCard({
-    resourceId,
+    id,
     statusCode,
     name,
     description,
@@ -31,7 +31,7 @@ function ResourceCard({
     const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource)
     const [disabled, setDisabled] = useState(false);
     const [currentCard, setCurrentCard] = useState<ResourceCardType>({
-        resourceId,
+        id,
         statusCode,
         name,
         description,
@@ -53,7 +53,7 @@ function ResourceCard({
     const { t } = useTranslation();
     useEffect(() => {
         setCurrentCard({
-            resourceId,
+            id,
             statusCode,
             name,
             description,
@@ -67,7 +67,7 @@ function ResourceCard({
             role,
             ticketId
         })
-    }, [resourceId,
+    }, [id,
         statusCode,
         name,
         description,
@@ -83,7 +83,7 @@ function ResourceCard({
 
     const releaseResource = async () => {
         setDisabled(true);
-        const { data, errors } = await callReleaseResource({ variables: { resourceId, requestFrom: RequestSource.Home } });
+        const { data, errors } = await callReleaseResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
         setDisabled(false);
         if (errors) {
             return;
@@ -94,7 +94,7 @@ function ResourceCard({
 
     const requestResource = async () => {
         setDisabled(true);
-        const { data, errors } = await callRequestResource({ variables: { resourceId, requestFrom: RequestSource.Home } });
+        const { data, errors } = await callRequestResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
         setDisabled(false);
         if (errors) {
             return;
@@ -130,7 +130,7 @@ function ResourceCard({
             </div>
             <div className="flex-col flex-grow ml-3">
                 <div className="mt-3"></div>
-                <Link to={`/viewResource/${currentCard.resourceId}`} className="text-yellow text-base text-left  hover:underline font-bold"> {name}</Link>
+                <Link to={`/viewResource/${currentCard.id}`} className="text-yellow text-base text-left  hover:underline font-bold"> {name}</Link>
                 <div className="-mt-1.5">
                     <p className="text-blue-light text-xs text-left inline">{t("CreatedBy")}
                     </p>
