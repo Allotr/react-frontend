@@ -73,9 +73,15 @@ registerRoute(/\.(?:js|css)$/,
 );
 
 registerRoute(/\.(?:png|gif|jpg|svg)$/,
-  new CacheFirst({
-    cacheName: 'images-cache'
-  })
+    new CacheFirst({
+        cacheName: 'images-cache'
+    })
+);
+
+registerRoute('https://api.allotr.eu/webpush/vapidPublicKey',
+    new CacheFirst({
+        cacheName: 'vapidPublicKey'
+    })
 );
 
 // This allows the web app to trigger skipWaiting via
