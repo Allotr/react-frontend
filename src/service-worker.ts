@@ -11,6 +11,7 @@
 import { clientsClaim } from 'workbox-core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { precacheAndRoute } from 'workbox-precaching';
+import { ExpirationPlugin } from 'workbox-expiration';
 import { registerRoute } from 'workbox-routing';
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { getLoadedEnvVariables } from './utils/env-loader';
@@ -68,19 +69,34 @@ const ignored = self.__WB_MANIFEST;
 
 registerRoute(/\.(?:js|css)$/,
     new StaleWhileRevalidate({
-        cacheName: 'static-resources'
+        cacheName: 'static-resources',
+        plugins: [
+            new ExpirationPlugin({
+                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+            }),
+        ],
     })
 );
 
 registerRoute(/\.(?:png|gif|jpg|svg)$/,
     new CacheFirst({
-        cacheName: 'images-cache'
+        cacheName: 'images-cache',
+        plugins: [
+            new ExpirationPlugin({
+                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+            }),
+        ],
     })
 );
 
 registerRoute('https://api.allotr.eu/webpush/vapidPublicKey',
     new CacheFirst({
-        cacheName: 'vapidPublicKey'
+        cacheName: 'vapidPublicKey',
+        plugins: [
+            new ExpirationPlugin({
+                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+            }),
+        ],
     })
 );
 
