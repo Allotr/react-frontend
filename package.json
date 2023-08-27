@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.1",
-    "allotr-graphql-schema-types": "3.0.0",
+    "allotr-graphql-schema-types": "3.0.3",
     "file-loader": "^6.2.0",
     "graphql": "^15.5.0",
     "graphql-ws": "^5.14.0",

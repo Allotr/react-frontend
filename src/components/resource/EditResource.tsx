@@ -82,7 +82,7 @@ function EditResource() {
         }
         const viewResource = !queryLoading ? queryData?.viewResource as ResourceView ?? {} as ResourceView : {} as ResourceView
         const newSelectedUserList = viewResource.tickets.map(({ user }) => ({
-            id: user.userId,
+            id: user.userId ?? "",
             name: user.name,
             surname: user.surname,
             username: user.username
