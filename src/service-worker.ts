@@ -12,7 +12,7 @@ import { clientsClaim } from 'workbox-core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { NetworkOnly } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { getLoadedEnvVariables } from './utils/env-loader';
 import {
     ApolloClient,
@@ -66,11 +66,17 @@ clientsClaim();
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ignored = self.__WB_MANIFEST;
 
-registerRoute(
-    () => true,
-    new NetworkOnly()
+registerRoute(/\.(?:js|css)$/,
+    new StaleWhileRevalidate({
+        cacheName: 'static-resources'
+    })
 );
 
+registerRoute(/\.(?:png|gif|jpg|svg)$/,
+  new CacheFirst({
+    cacheName: 'images-cache'
+  })
+);
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
