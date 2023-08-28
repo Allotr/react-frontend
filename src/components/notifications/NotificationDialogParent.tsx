@@ -9,7 +9,7 @@ import { getSessionValue } from "../../utils/storage-utils";
 function NotificationDialogParent() {
     const resourceAvailableNotification = "ResourceAvailableNotification";
     const [myNotifications, setMyNotifications] = useState<ResourceNotification[]>([]);
-    const { data, error, loading } = useQuery<MyNotificationDataQuery>(MyNotificationData, { pollInterval: 40_000 });
+    const { data, error, loading } = useQuery<MyNotificationDataQuery>(MyNotificationData, { pollInterval: 30_000 });
     const { _id } = getSessionValue<UserDbObject>(CURRENT_USER_DATA);
 
     if (_id != null) {
@@ -23,9 +23,10 @@ function NotificationDialogParent() {
 
     useEffect(() => {
         if (loading || error) return;
-        
+
         const filteredNotifications = data?.myNotificationData?.filter(({ titleRef }) => titleRef === resourceAvailableNotification) ?? []
 
+        setMyNotifications([]);
         setMyNotifications(filteredNotifications ?? []);
     }, [data, loading, error])
 
