@@ -84,23 +84,25 @@ function ResourceCard({
     const releaseResource = async () => {
         setDisabled(true);
         const { data, errors } = await callReleaseResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
-        setDisabled(false);
+        
         if (errors) {
-            return;
+            return setDisabled(false);
         }
         const resourceCard = data?.releaseResource.updatedResourceCard as ResourceCardType;
         setCurrentCard(resourceCard);
+        setDisabled(false);
     }
 
     const requestResource = async () => {
         setDisabled(true);
         const { data, errors } = await callRequestResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
-        setDisabled(false);
+        
         if (errors) {
-            return;
+            return setDisabled(false);
         }
         const resourceCard = data?.requestResource.updatedResourceCard as ResourceCardType;
         setCurrentCard(resourceCard);
+        setDisabled(false);
     }
 
     const borderColorByStatus: Record<TicketStatusCode, string> = {
