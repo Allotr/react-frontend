@@ -4,7 +4,7 @@ import ClosedLock from "../../assets/ClosedLock";
 import OpenLock from "../../assets/OpenLock";
 import ActionButton from "../generic/ActionButton";
 import TurnIndicator from "../generic/TurnIndicator";
-import { ResourceCard as ResourceCardType, TicketStatusCode, ReleaseResource, ReleaseResourceMutation, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, ReleaseResourceMutationVariables, RequestSource } from "allotr-graphql-schema-types"
+import { ResourceCard as ResourceCardType, TicketStatusCode, ReleaseResource, ReleaseResourceMutation, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, ReleaseResourceMutationVariables, RequestSource, OperationResult } from "allotr-graphql-schema-types"
 import ActiveUserStatus from "../generic/ActiveUserStatus";
 import { Link } from "react-router-dom"
 import { useMutation } from "@apollo/client";
@@ -85,7 +85,7 @@ function ResourceCard({
         setDisabled(true);
         const { data, errors } = await callReleaseResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
         
-        if (errors) {
+        if (errors || data?.releaseResource?.status === OperationResult.Error) {
             return setDisabled(false);
         }
         const resourceCard = data?.releaseResource.updatedResourceCard as ResourceCardType;
@@ -97,7 +97,7 @@ function ResourceCard({
         setDisabled(true);
         const { data, errors } = await callRequestResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
         
-        if (errors) {
+        if (errors || data?.requestResource?.status === OperationResult.Error) {
             return setDisabled(false);
         }
         const resourceCard = data?.requestResource.updatedResourceCard as ResourceCardType;
@@ -120,7 +120,7 @@ function ResourceCard({
         AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
         INACTIVE: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
         INITIALIZED: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
-        QUEUED: <TurnIndicator queuePosition={currentCard.queuePosition ?? 0} ></TurnIndicator>,
+        QUEUED: <TurnIndicator queuePosition={currentCard?.queuePosition ?? 0} ></TurnIndicator>,
         REQUESTING: <div className="w-28 h-9" />,
         REVOKED: <div className="w-28 h-9" />
     }
