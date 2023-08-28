@@ -9,14 +9,12 @@ import { getSessionValue } from "../../utils/storage-utils";
 function NotificationDialogParent() {
     const resourceAvailableNotification = "ResourceAvailableNotification";
     const [myNotifications, setMyNotifications] = useState<ResourceNotification[]>([]);
-    const { data, error, loading } = useQuery<MyNotificationDataQuery>(MyNotificationData);
+    const { data, error, loading } = useQuery<MyNotificationDataQuery>(MyNotificationData, { pollInterval: 40_000 });
     const { _id } = getSessionValue<UserDbObject>(CURRENT_USER_DATA);
 
     if (_id != null) {
         doSubscribe<{ data: MyNotificationDataSubSubscription }>(MyNotificationDataSub, newValue => {
             const filteredNotifications = newValue?.data?.myNotificationDataSub.filter(({ titleRef }) => titleRef === resourceAvailableNotification)
-            if (filteredNotifications.length === 0)
-                return
             setMyNotifications([]);
             setMyNotifications(filteredNotifications);
         });
@@ -25,16 +23,14 @@ function NotificationDialogParent() {
 
     useEffect(() => {
         if (loading || error) return;
-
+        
         const filteredNotifications = data?.myNotificationData?.filter(({ titleRef }) => titleRef === resourceAvailableNotification) ?? []
-        if (filteredNotifications.length === 0)
-            return
 
         setMyNotifications(filteredNotifications ?? []);
     }, [data, loading, error])
 
     return (
-        <NotificationDialog data={myNotifications}></NotificationDialog>
+        myNotifications.length > 0 ? <NotificationDialog data={myNotifications}></NotificationDialog> : null
     );
 }
 
