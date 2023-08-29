@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { PublicUser } from "allotr-graphql-schema-types";
-import ActionButton from "../../generic/ActionButton";
+import ActionButton from "../../generic/ActionButton/ActionButton";
 import SearchUsersCall from "./SearchUsersCall";
 import SearchUsersTableRow from "./SearchUsersTableRow";
 import MagnifyingGlass from "../../../assets/MagnifyingGlass";

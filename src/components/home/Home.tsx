@@ -14,11 +14,13 @@ function Home() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const myResources = data?.myResources;
-  const [resourceList, setResourceLIst] = useState<ResourceCardType[]>(myResources ?? []);
+  const [resourceList, setResourceList] = useState<ResourceCardType[]>(myResources ?? []);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const newResources = myResources;
     if (!loading && newResources != null) {
-      setResourceLIst(newResources)
+      setResourceList(newResources)
+      setIsLoading(false);
     }
   }, [data, loading, myResources])
 
@@ -35,7 +37,7 @@ function Home() {
         <AddButton action={() => navigate("/createResource")}></AddButton>
       </div>
       <div className="pt-20"></div>
-      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} loading={loading}/>))}
+      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} isLoading={isLoading} />))}
       <div className="pb-52"></div>
       <Credits></Credits>
     </div>

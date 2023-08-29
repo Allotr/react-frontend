@@ -4,7 +4,7 @@ import AllotrLogo from "../../assets/AllotrLogo";
 import DiscardButton from "../generic/DiscardButton";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { ViewResourceQuery, ViewResource as ViewResourceGQL, ResourceView, LocalRole, TicketStatusCode, RequestSource, UserDbObject, ReleaseResource, ReleaseResourceMutation, ReleaseResourceMutationVariables, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, TicketView } from "allotr-graphql-schema-types";
 import Key from "../../assets/Key";
 import { COLORS } from "../../consts/colors";
@@ -12,13 +12,11 @@ import MiniActionButton from "../generic/MiniActionButton";
 import QuestionMark from "../../assets/QuestionMark";
 import ClosedLock from "../../assets/ClosedLock";
 import Clock from "../../assets/Clock";
-import OpenLock from "../../assets/OpenLock";
-import ActionButton from "../generic/ActionButton";
-import TurnIndicator from "../generic/TurnIndicator";
 import { CURRENT_USER_DATA } from "../../consts/global_session_keys";
 import { getSessionValue } from "../../utils/storage-utils";
 import TrashCan from "../../assets/TrashCan";
 import EditPen from "../../assets/EditPen";
+import ResourceActionButton from "../generic/ResourceActionButton/ResourceActionButton";
 
 function ViewResource() {
     const { t } = useTranslation();
@@ -29,13 +27,11 @@ function ViewResource() {
 
     // GraphQL data queries/mutations
     const { data, loading, error } = useQuery<ViewResourceQuery>(ViewResourceGQL, { variables: { resourceId: id }, pollInterval: 300 })
-    const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource);
-    const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource);
 
-    const [disabled, setDisabled] = useState(false);
     const [ticketListToShow, setTicketListToShow] = useState<TicketView[]>([]);
     const [myTicket, setMyTicket] = useState<TicketView | undefined>();
     const [viewResource, setViewResource] = useState<ResourceView>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // Scroll to top when first loading the screen
     useEffect(() => {
@@ -52,7 +48,7 @@ function ViewResource() {
         REVOKED: null
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (error || (!loading && data?.viewResource == null)) {
             navigate(-1);
             return;
@@ -61,7 +57,8 @@ function ViewResource() {
             return;
         }
         setViewResource(data?.viewResource as ResourceView);
-    },[data, loading, error, navigate])
+        setIsLoading(false);
+    }, [data, loading, error, navigate])
 
     useEffect(() => {
         const ticketList = viewResource?.tickets ?? [];
@@ -72,47 +69,6 @@ function ViewResource() {
         ].includes(lastStatus.statusCode)));
         setMyTicket(ticketList.find(({ user }) => user.userId === _id ?? ""))
     }, [viewResource, _id, navigate])
-
-    useEffect(() => {
-        setDisabled(loading);
-    }, [loading])
-
-
-    const releaseResource = async () => {
-        if (id == null) {
-            return;
-        }
-        setDisabled(true);
-        const { errors } = await callReleaseResource({ variables: { resourceId: id, requestFrom: RequestSource.Resource } });
-        setDisabled(false);
-        if (errors) {
-            return;
-        }
-    }
-
-    const requestResource = async () => {
-        if (id == null) {
-            return;
-        }
-        setDisabled(true);
-        const { errors } = await callRequestResource({ variables: { resourceId: id, requestFrom: RequestSource.Resource } });
-        setDisabled(false);
-        if (errors) {
-            return;
-        }
-    }
-
-
-
-    const componentMap: Record<TicketStatusCode, ReactElement | null> = {
-        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.yellow.DEFAULT} disabled={disabled} textColorClass="text-yellow" hoverColorClass="hover:border-yellow"></ActionButton>,
-        AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
-        INACTIVE: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
-        INITIALIZED: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
-        QUEUED: <TurnIndicator queuePosition={myTicket?.lastStatus.queuePosition ?? 0} ></TurnIndicator>,
-        REQUESTING: <div className="w-28 h-9" />,
-        REVOKED: <div className="w-28 h-9" />
-    }
 
     useEffect(() => {
         // Add your init code
@@ -208,7 +164,15 @@ function ViewResource() {
                     <DiscardButton action={() => navigate(-1)} label="Back" />
                 </div>
                 <div className=" flex items-center justify-center  bottom-10 right-5 md:bottom-16 md:right-16 ">
-                    <div className="self-start">{componentMap[myTicket?.lastStatus.statusCode ?? TicketStatusCode.Revoked]}</div>
+                    <div className="self-start">
+                        <ResourceActionButton
+                            resourceId={viewResource?.id}
+                            ticketStatusCode={myTicket?.lastStatus.statusCode ?? TicketStatusCode.Revoked}
+                            queuePosition={myTicket?.lastStatus.queuePosition}
+                            requestFrom={RequestSource.Resource}
+                            isLoading={isLoading}
+                        ></ResourceActionButton>
+                    </div>
                 </div>
             </div>
 

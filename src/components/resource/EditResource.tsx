@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AllotrLogo from "../../assets/AllotrLogo";
-import ActionButton from "../generic/ActionButton";
+import ActionButton from "../generic/ActionButton/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";

@@ -1,14 +1,9 @@
-import React, { useEffect, ReactElement, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import ClosedLock from "../../assets/ClosedLock";
-import OpenLock from "../../assets/OpenLock";
-import ActionButton from "../generic/ActionButton";
-import TurnIndicator from "../generic/TurnIndicator";
-import { ResourceCard as ResourceCardType, TicketStatusCode, ReleaseResource, ReleaseResourceMutation, RequestResource, RequestResourceMutation, RequestResourceMutationVariables, ReleaseResourceMutationVariables, RequestSource, OperationResult } from "allotr-graphql-schema-types"
+import { ResourceCard as ResourceCardType, TicketStatusCode, RequestSource } from "allotr-graphql-schema-types"
 import ActiveUserStatus from "../generic/ActiveUserStatus";
 import { Link } from "react-router-dom"
-import { useMutation } from "@apollo/client";
-import { COLORS } from "../../consts/colors";
+import ResourceActionButton from "../generic/ResourceActionButton/ResourceActionButton";
 
 function ResourceCard({
     id,
@@ -24,12 +19,9 @@ function ResourceCard({
     lastStatusTimestamp,
     role,
     ticketId,
-    loading
-}: ResourceCardType & { loading: boolean }) {
+    isLoading
+}: ResourceCardType & {isLoading?: boolean}) {
 
-    const [callRequestResource] = useMutation<RequestResourceMutation, RequestResourceMutationVariables>(RequestResource)
-    const [callReleaseResource] = useMutation<ReleaseResourceMutation, ReleaseResourceMutationVariables>(ReleaseResource)
-    const [disabled, setDisabled] = useState(false);
     const [currentCard, setCurrentCard] = useState<ResourceCardType>({
         id,
         statusCode,
@@ -46,9 +38,6 @@ function ResourceCard({
         ticketId
     });
 
-    useEffect(() => {
-        setDisabled(loading);
-    }, [loading])
 
     const { t } = useTranslation();
     useEffect(() => {
@@ -81,28 +70,11 @@ function ResourceCard({
         role,
         ticketId])
 
-    const releaseResource = async () => {
-        setDisabled(true);
-        const { data, errors } = await callReleaseResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
-        
-        if (errors || data?.releaseResource?.status === OperationResult.Error) {
-            return setDisabled(false);
+    const onActionSuccess = (resourceCard?: ResourceCardType) => {
+        if (resourceCard == null){
+            return;
         }
-        const resourceCard = data?.releaseResource.updatedResourceCard as ResourceCardType;
         setCurrentCard(resourceCard);
-        setDisabled(false);
-    }
-
-    const requestResource = async () => {
-        setDisabled(true);
-        const { data, errors } = await callRequestResource({ variables: { resourceId: id, requestFrom: RequestSource.Home } });
-        
-        if (errors || data?.requestResource?.status === OperationResult.Error) {
-            return setDisabled(false);
-        }
-        const resourceCard = data?.requestResource.updatedResourceCard as ResourceCardType;
-        setCurrentCard(resourceCard);
-        setDisabled(false);
     }
 
     const borderColorByStatus: Record<TicketStatusCode, string> = {
@@ -113,16 +85,6 @@ function ResourceCard({
         QUEUED: "border-blue-light",
         REQUESTING: "border-blue-light",
         REVOKED: "border-purple"
-    }
-
-    const componentMap: Record<TicketStatusCode, ReactElement | null> = {
-        ACTIVE: <ActionButton action={releaseResource} label="ReleaseResource" logo={OpenLock} fill={COLORS.yellow.DEFAULT} disabled={disabled} textColorClass="text-yellow" hoverColorClass="hover:border-yellow"></ActionButton>,
-        AWAITING_CONFIRMATION: <div className="w-28 h-9" />,
-        INACTIVE: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
-        INITIALIZED: <ActionButton action={requestResource} label="RequestResource" logo={ClosedLock} fill={COLORS.blue.light} disabled={disabled}></ActionButton>,
-        QUEUED: <TurnIndicator queuePosition={currentCard?.queuePosition ?? 0} ></TurnIndicator>,
-        REQUESTING: <div className="w-28 h-9" />,
-        REVOKED: <div className="w-28 h-9" />
     }
 
     return (
@@ -146,7 +108,16 @@ function ResourceCard({
                 </p>
             </div>
 
-            <div className="mt-4 ml-2 mr-3  self-start">{componentMap[currentCard.statusCode]}</div>
+            <div className="mt-4 ml-2 mr-3  self-start">
+                <ResourceActionButton
+                    resourceId={currentCard.id}
+                    ticketStatusCode={currentCard?.statusCode}
+                    queuePosition={currentCard?.queuePosition}
+                    requestFrom={RequestSource.Home}
+                    onActionSuccess={onActionSuccess}
+                    isLoading={isLoading}
+                ></ResourceActionButton>
+            </div>
         </div>
     );
 }

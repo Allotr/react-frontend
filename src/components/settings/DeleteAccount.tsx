@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import AllotrLogo from "../../assets/AllotrLogo";
-import ActionButton from "../generic/ActionButton";
+import ActionButton from "../generic/ActionButton/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
 import { useMutation } from "@apollo/client";
 import { DeleteUser, DeleteUserMutation, DeleteUserMutationVariables, OperationResult } from "allotr-graphql-schema-types";

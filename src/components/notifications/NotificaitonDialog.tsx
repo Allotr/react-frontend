@@ -3,7 +3,7 @@ import { AcquireResource, AcquireResourceMutation, AcquireResourceMutationVariab
 import { useTranslation } from "react-i18next";
 import Popup from 'reactjs-popup';
 import './NotificationDialog.css';
-import ActionButton from "../generic/ActionButton";
+import ActionButton from "../generic/ActionButton/ActionButton";
 import DiscardButton from "../generic/DiscardButton";
 import { useMutation } from "@apollo/client";
 import ClosedLock from "../../assets/ClosedLock";
