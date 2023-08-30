@@ -31,7 +31,7 @@ function NotificationDialogParent() {
     }, [data, loading, error])
 
     return (
-        myNotifications.length > 0 ? <NotificationDialog data={myNotifications}></NotificationDialog> : null
+        myNotifications?.length > 0 ? <NotificationDialog data={myNotifications}></NotificationDialog> : null
     );
 }
 
