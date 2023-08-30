@@ -3,7 +3,6 @@ import * as React from "react"
 function MagnifyingGlass(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             height="136pt"
             viewBox="-1 0 136 136.219"
             width="136pt"

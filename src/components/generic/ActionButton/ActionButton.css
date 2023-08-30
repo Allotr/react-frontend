@@ -1,0 +1,51 @@
+.release-animation {
+    padding: 2px;
+    --border-size: 2px;
+    --border-angle: 0turn;
+    background-image: linear-gradient(to right, #49088A, #49088A), conic-gradient(from var(--border-angle),
+    #E6B802 0deg 45deg,
+    #49088A 45deg 180deg,
+    #E6B802 180deg 225deg,
+    #49088A 225deg 360deg);
+    background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)),
+        cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    animation: bg-spin 1.5s linear infinite;
+
+    @keyframes bg-spin {
+        to {
+            --border-angle: 1turn;
+        }
+    }
+}
+
+.request-animation {
+    padding: 2px;
+    --border-size: 2px;
+    --border-angle: 0turn;
+    background-image: linear-gradient(to right, #49088A, #49088A), conic-gradient(from var(--border-angle),
+            #5ABAFF 0deg 45deg,
+            #49088A 45deg 180deg,
+            #5ABAFF 180deg 225deg,
+            #49088A 225deg 360deg);
+    background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)),
+        cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    animation: bg-spin 1.5s linear infinite;
+
+    @keyframes bg-spin {
+        to {
+            --border-angle: 1turn;
+        }
+    }
+}
+
+@property --border-angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0turn;
+}

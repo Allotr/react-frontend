@@ -1,5 +1,5 @@
 /// <reference lib="webworker" />
-/* eslint-disable no-restricted-globals */
+
 
 // This service worker can be customized!
 // See https://developers.google.com/web/tools/workbox/modules
@@ -9,9 +9,11 @@
 // service worker, and the Workbox build step will be skipped.
 
 import { clientsClaim } from 'workbox-core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { precacheAndRoute } from 'workbox-precaching';
+import { ExpirationPlugin } from 'workbox-expiration';
 import { registerRoute } from 'workbox-routing';
-import { NetworkOnly } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { getLoadedEnvVariables } from './utils/env-loader';
 import {
     ApolloClient,
@@ -62,13 +64,41 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 // precacheAndRoute(self.__WB_MANIFEST);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ignored = self.__WB_MANIFEST;
 
-registerRoute(
-    ({ url }) => true,
-    new NetworkOnly()
+registerRoute(/\.(?:js|css)$/,
+    new StaleWhileRevalidate({
+        cacheName: 'static-resources',
+        plugins: [
+            new ExpirationPlugin({
+                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+            }),
+        ],
+    })
 );
 
+registerRoute(/\.(?:png|gif|jpg|svg)$/,
+    new CacheFirst({
+        cacheName: 'images-cache',
+        plugins: [
+            new ExpirationPlugin({
+                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+            }),
+        ],
+    })
+);
+
+registerRoute('https://api.allotr.eu/webpush/vapidPublicKey',
+    new CacheFirst({
+        cacheName: 'vapidPublicKey',
+        plugins: [
+            new ExpirationPlugin({
+                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+            }),
+        ],
+    })
+);
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
@@ -151,6 +181,7 @@ self.addEventListener('notificationclick', function (event) {
 // subscription expires. Subscribe again and register the new subscription
 // in the server by sending a POST request with endpoint. Real world
 // application would probably use also user identification.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 self.addEventListener('pushsubscriptionchange', function (event: any) {
     console.log('Subscription expired');
     event.waitUntil(

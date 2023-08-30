@@ -5,20 +5,22 @@ import BurgerMenu from "./BurgerMenu";
 import ResourceCard from "./ResourceCard";
 import AddButton from "./AddButton";
 import Credits from "./Credits";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { MyResourcesQuery, MyResources, ResourceCard as ResourceCardType } from "allotr-graphql-schema-types";
 
 function Home() {
   const { data, loading } = useQuery<MyResourcesQuery>(MyResources, { pollInterval: 300 });
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const myResources = data?.myResources;
-  const [resourceList, setResourceLIst] = useState<ResourceCardType[]>(myResources ?? []);
+  const [resourceList, setResourceList] = useState<ResourceCardType[]>(myResources ?? []);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const newResources = myResources;
     if (!loading && newResources != null) {
-      setResourceLIst(newResources)
+      setResourceList(newResources)
+      setIsLoading(false);
     }
   }, [data, loading, myResources])
 
@@ -32,10 +34,10 @@ function Home() {
         </div>
       </div>
       <div>
-        <AddButton action={() => history.push("/createResource")}></AddButton>
+        <AddButton action={() => navigate("/createResource")}></AddButton>
       </div>
       <div className="pt-20"></div>
-      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} loading={loading}/>))}
+      {resourceList.map((resource, index) => (<ResourceCard key={index} {...resource} isLoading={isLoading} />))}
       <div className="pb-52"></div>
       <Credits></Credits>
     </div>

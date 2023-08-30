@@ -1,15 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Plus from "../../assets/Plus";
 import { COLORS } from "../../consts/colors";
 
 function ActionButton({ action, disabled = false }: { action: () => void, disabled?: boolean }) {
-  const [isHovered, setIsHovered] = React.useState(false);
-  const onMouseEnter = () => {
-    setIsHovered(true);
-  };
-  const onMouseLeave = () => {
-    setIsHovered(false);
-  };
   useEffect(() => {
     // Add your init code
   }, []);
@@ -20,12 +13,10 @@ function ActionButton({ action, disabled = false }: { action: () => void, disabl
       onClick={action}
       aria-label="add"
       disabled={disabled}
-      {...{ onMouseEnter, onMouseLeave }}
     >
       <Plus
-        fill={isHovered ? COLORS.blue.light : COLORS.purple.dark}
-        height="30px"
-        width="30px"
+        fill={COLORS.blue.light}
+        className="h-5 w-5 md:h-7 md:w-7"
       ></Plus>
     </button>
   );

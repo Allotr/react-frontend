@@ -14,7 +14,7 @@ function SearchUsersTableRow({
   const [userData] = useState(publicUser);
 
   // Hover styling
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const onMouseEnter = () => {
     setIsHovered(true);
   };
