@@ -25,7 +25,7 @@ function DeleteAccount() {
 
     const handleConfirmClick = async () => {
         setDisabled(true);
-        const { data, errors } = await callDeleteUser({ variables: { deleteAllFlag: isFlagChecked, userIdToDelete: _id ?? "" } })
+        const { data, errors } = await callDeleteUser({ variables: { deleteAllFlag: isFlagChecked } })
         setDisabled(false);
         if (errors || data?.deleteUser?.status === OperationResult.Error) {
             return;
