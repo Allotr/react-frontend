@@ -12,6 +12,7 @@ import { useQuery } from "@apollo/client";
 import { CURRENT_USER_DATA } from './consts/global_session_keys';
 import { setSessionValue } from './utils/storage-utils';
 import { lazy, Suspense } from 'react';
+import NotificationDialogParent from './components/notifications/NotificationDialogParent';
 
 // Lazy load pages
 const Home = lazy(() => import('./components/home/Home'));
@@ -35,19 +36,22 @@ function App() {
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        {!loading ? <Route path='/' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><Home /></Suspense>} />} /> : null}
-        {!loading ? <Route path='/createResource' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><CreateResource /></Suspense>} />} /> : null}
-        {!loading ? <Route path='/viewResource/:id' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><ViewResource /></Suspense>} />} /> : null}
-        {!loading ? <Route path='/editResource/:id' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><EditResource /></Suspense>} />} /> : null}
-        {!loading ? <Route path='/deleteResource/:id' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><DeleteResource /></Suspense>} />} /> : null}
-        {!loading ? <Route path='/settings' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><Settings /></Suspense>} />} /> : null}
-        {!loading ? <Route path='/deleteAccount' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><DeleteAccount /></Suspense>} />} /> : null}
-        <Route path="*" element={<LoadingScreen />} />
-      </Routes>
-    </Router>
+    <div>
+      {!loading ? <NotificationDialogParent /> : null}
+      <Router>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          {!loading ? <Route path='/' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><Home /></Suspense>} />} /> : null}
+          {!loading ? <Route path='/createResource' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><CreateResource /></Suspense>} />} /> : null}
+          {!loading ? <Route path='/viewResource/:id' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><ViewResource /></Suspense>} />} /> : null}
+          {!loading ? <Route path='/editResource/:id' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><EditResource /></Suspense>} />} /> : null}
+          {!loading ? <Route path='/deleteResource/:id' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><DeleteResource /></Suspense>} />} /> : null}
+          {!loading ? <Route path='/settings' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><Settings /></Suspense>} />} /> : null}
+          {!loading ? <Route path='/deleteAccount' element={<GuardedRoute {...defaultProtectedRouteProps} outlet={<Suspense fallback={<LoadingScreen />}><DeleteAccount /></Suspense>} />} /> : null}
+          <Route path="*" element={<LoadingScreen />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
