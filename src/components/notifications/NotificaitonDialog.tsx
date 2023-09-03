@@ -70,13 +70,15 @@ function NotificationDialog({ data: props }: { data: ResourceNotification[] }) {
     <div>
       <ul>
         {listState.map((item) => (
-          <Popup open={open} onClose={() => { }} closeOnDocumentClick={false} closeOnEscape={false} position="right center">
+          <Popup open={open} onClose={() => { }} closeOnDocumentClick={false} closeOnEscape={false} position="right center" key={`notificationpopup-${item.id}`}>
             {/* Title */}
             <p className="text-yellow text-4xl font-bold m-auto text-center">{t("ItsYourTurnTitle")}</p>
             <div className="pt-10"></div>
-            <p className="text-yellow text-2xl font-bold m-auto italic text-center">"{item.resource?.name}" {<p className="text-blue-light text-1xl font-bold not-italic">{t("From")} {item.resource?.createdBy?.username}</p>}
-              <p className="text-blue-light text-2xl font-bold m-auto text-center not-italic">{t("ItsYourTurnSubtitle")}</p>
-            </p>
+            <div className="-mt-1.5 text-center">
+              <p className="text-yellow text-2xl font-bold m-auto italic">"{item.resource?.name}"</p>
+              {<p className="text-blue-light text-1xl font-bold not-italic inline">{t("From")} {item.resource?.createdBy?.username}</p>}
+            </div>
+            <p className="text-blue-light text-2xl font-bold m-auto text-center not-italic">{t("ItsYourTurnSubtitle")}</p>
             <div className="pt-10"></div>
             <p className="text-blue text-3xl font-bold m-auto text-center">{t("DoYouWantToUseResourceQuestion")}</p>
             <div className="pt-3"></div>
