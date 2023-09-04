@@ -13,6 +13,8 @@ import { CURRENT_USER_DATA } from './consts/global_session_keys';
 import { setSessionValue } from './utils/storage-utils';
 import { lazy, Suspense } from 'react';
 import NotificationDialogParent from './components/notifications/NotificationDialogParent';
+import CookieConsent from "react-cookie-consent";
+import { useTranslation } from 'react-i18next';
 
 // Lazy load pages
 const Home = lazy(() => import('./components/home/Home'));
@@ -25,6 +27,7 @@ const DeleteResource = lazy(() => import('./components/resource/DeleteResource')
 
 
 function App() {
+  const { t } = useTranslation();
   const { data, error, loading } = useQuery<CurrentUserQuery>(CurrentUser);
   if (!loading && data?.currentUser?._id != null && !error) {
     setSessionValue(CURRENT_USER_DATA, data.currentUser)
@@ -37,6 +40,7 @@ function App() {
 
   return (
     <div>
+      <CookieConsent>{t('CookieConsent')}</CookieConsent>
       {!loading ? <NotificationDialogParent /> : null}
       <Router>
         <Routes>
