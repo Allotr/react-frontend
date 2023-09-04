@@ -3,6 +3,7 @@
         "Welcome to React": "Bienvenido a React y react-i18next",
         "Allotr": "Allotr",
         "CookieConsent":"Esta página utiliza cookies para identificar a los usuarios",
+        "CookieConsentOk": "Lo entiendo",
         "LoginWithGoogle": "Inicia sesión con Google",
         "AllotrLemma": "¿A quién le toca?",
         "YourResources": "Tus Recursos",

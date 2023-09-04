@@ -40,7 +40,7 @@ function App() {
 
   return (
     <div>
-      <CookieConsent>{t('CookieConsent')}</CookieConsent>
+      <CookieConsent buttonText={t('CookieConsentOk')}>{t('CookieConsent')}</CookieConsent>
       {!loading ? <NotificationDialogParent /> : null}
       <Router>
         <Routes>
