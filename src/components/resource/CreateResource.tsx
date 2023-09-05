@@ -129,7 +129,7 @@ function CreateResource() {
                     />
                     {errors?.name && (
                         <span className="text-yellow text-left mt-1 mr-3 mb-5 ml-5 m-auto block">
-                            {t("FieldRequired")}
+                            {t("FieldRequiredMaxLength200")}
                         </span>
                     )}
 

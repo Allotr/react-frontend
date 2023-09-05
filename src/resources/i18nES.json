@@ -25,7 +25,7 @@
         "UsersForm": "Usuarios",
         "SearchUserTable": "Buscar",
         "SearchPlaceholder": "Nombre, apellido o username...",
-        "FieldRequired": "Este campo es obligatorio",
+        "FieldRequiredMaxLength200": "Este campo es obligatorio y debe tener menos de 200 caracteres",
         "TextTooLong": "El texto es demasiado largo. Debe tener menos de 1000 caracteres",
         "InvalidNumberPositive": "Por favor, introduce un número positivo mayor que 0 y menor que 9999",
         "SearchUsersForm": "Añade usuarios",
