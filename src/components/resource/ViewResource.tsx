@@ -67,7 +67,7 @@ function ViewResource() {
             TicketStatusCode.AwaitingConfirmation,
             TicketStatusCode.Queued
         ].includes(lastStatus.statusCode)));
-        setMyTicket(ticketList.find(({ user }) => user.userId === _id ?? ""))
+        setMyTicket(ticketList.find(({ user }) => user.userId === _id))
     }, [viewResource, _id, navigate])
 
     useEffect(() => {

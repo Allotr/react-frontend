@@ -18,10 +18,9 @@ export function register(config?: Config) {
         return;
     }
 
-    window.addEventListener('load', async () => {
+    window.addEventListener('load', () => {
         const swUrl = `./service-worker.js`;
-        await registerValidSW(swUrl, config);
-        await registerWebPush();
+        registerValidSW(swUrl, config).then(() => registerWebPush());
     });
 }
 
