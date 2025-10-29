@@ -18,6 +18,8 @@ spec:
       containers:
         - name: allotr-react-frontend
           image: rafaelpernil/allotr-react-frontend
+          serviceAccountName: default
+          automountServiceAccountToken: false
           imagePullPolicy: Always
           ports:
             - containerPort: 80
