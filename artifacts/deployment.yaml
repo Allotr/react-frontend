@@ -18,7 +18,7 @@ spec:
       containers:
         - name: allotr-react-frontend
           image: rafaelpernil/allotr-react-frontend
-          serviceAccountName: default
+          serviceAccountName: custom-account
           automountServiceAccountToken: false
           imagePullPolicy: Always
           ports:
@@ -26,6 +26,8 @@ spec:
           resources:
             limits:
               memory: 1Gi
+              cpu: "500m"
             requests:
               memory: 1Gi
+              cpu: "250m"
       restartPolicy: Always
