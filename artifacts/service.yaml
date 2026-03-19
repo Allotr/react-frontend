@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: allotr-react-frontend
-  namespace: openfaas-fn
+  namespace: allotr
 spec:
   ports:
     - port: 80
